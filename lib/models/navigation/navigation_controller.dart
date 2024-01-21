@@ -9,7 +9,7 @@ import '../../views/pages/projects/project_main.dart';
 class NavigationController {
   NavigationController._();
 
-  static String initR = '/DashboardPage';
+  static String initR = '/DashboardPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard = GlobalKey<NavigatorState>(debugLabel: 'shellDashboard');
