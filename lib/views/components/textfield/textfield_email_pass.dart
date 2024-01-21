@@ -33,17 +33,17 @@ Widget PrimaryTextfield(
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(60),
+        borderRadius: BorderRadius.circular(10),
         borderSide: const BorderSide(
           color: ListColor.primary,
           width: 1,
         ),
       ),
       prefixIcon: Container(
-        width: 54, // Atur lebar Container sesuai kebutuhan
+        width: 54,
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.only(left: 18.0), // Sesuaikan jarak di sisi kiri di sini
+          padding: const EdgeInsets.only(left: 18.0),
           child: SvgPicture.asset(
             width: 25.0,
             height: 25.0,
