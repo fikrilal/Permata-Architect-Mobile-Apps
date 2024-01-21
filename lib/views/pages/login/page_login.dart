@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_email_pass.dart';
 
 import '../../../repository/res/font_style.dart';
-import '../../components/button/button_primary.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class PageLogin extends StatelessWidget {
   TextEditingController _controllerName = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return Scaffold(
       body: SafeArea(
         child: Container(
