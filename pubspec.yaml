@@ -35,6 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -53,9 +54,30 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: Satoshi
+      fonts:
+        - asset: fonts/Satoshi-Light.ttf
+        - asset: fonts/Satoshi-LightItalic.ttf
+        - asset: fonts/Satoshi-Regular.ttf
+        - asset: fonts/Satoshi-Italic.ttf
+        - asset: fonts/Satoshi-Medium.ttf
+        - asset: fonts/Satoshi-MediumItalic.ttf
+        - asset: fonts/Satoshi-Bold.ttf
+        - asset: fonts/Satoshi-BoldItalic.ttf
+        - asset: fonts/Satoshi-Black.ttf
+        - asset: fonts/Satoshi-BlackItalic.ttf
+
+    - family: SFDisplay
+      fonts:
+        - asset: fonts/SF-Pro-Display-Bold.otf
+          weight: 800
+
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
