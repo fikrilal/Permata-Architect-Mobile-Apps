@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Text(
                 "Selamat Datang Kembali!",
-                style: headerFont.copyWith(fontSize: 30.0),
+                style: headerFontSignInUp.copyWith(fontSize: 30.0),
               ),
               Text(
                 "Masuk kembali ke akunmu, dan nikmati fitur lengkap dari nail.it!",
