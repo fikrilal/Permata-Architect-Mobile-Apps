@@ -9,11 +9,14 @@ import '../../views/pages/projects/project_main.dart';
 class NavigationController {
   NavigationController._();
 
-  static String initR = '/DashboardPage'; //Halaman pertama ketika aplikasi dijalankan
+  static String initR =
+      '/LoginPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  static final _rootNavigatorDashboard = GlobalKey<NavigatorState>(debugLabel: 'shellDashboard');
-  static final _rootNavigatorProject = GlobalKey<NavigatorState>(debugLabel: 'shellProject');
+  static final _rootNavigatorDashboard =
+      GlobalKey<NavigatorState>(debugLabel: 'shellDashboard');
+  static final _rootNavigatorProject =
+      GlobalKey<NavigatorState>(debugLabel: 'shellProject');
 
   static final GoRouter router = GoRouter(
     initialLocation: initR,
@@ -28,17 +31,16 @@ class NavigationController {
           );
         },
       ),
-
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainWrapper(navigationShell: navigationShell);
         },
-        branches: <StatefulShellBranch>
-        [
+        branches: <StatefulShellBranch>[
           StatefulShellBranch(
             navigatorKey: _rootNavigatorDashboard,
             routes: [
-              GoRoute(path: '/DashboardPage',
+              GoRoute(
+                path: '/DashboardPage',
                 name: 'DashboardPage',
                 builder: (context, state) {
                   return DashboardPage(
@@ -49,26 +51,26 @@ class NavigationController {
               )
             ],
           ),
-
           StatefulShellBranch(
             navigatorKey: _rootNavigatorProject,
             routes: [
-              GoRoute(path: '/ProjectMain',
-                  name: 'ProjectMain',
-                  builder: (context, state) {
-                    return ProjectMain(
-                      key: state.pageKey,
-                    );
-                  },
-                  // routes: [
-                  //   GoRoute(path: 'NewSchedulePage',
-                  //       name: 'NewSchedulePage',
-                  //       builder: (context, state) {
-                  //         return NewSchedulePage(
-                  //           key: state.pageKey,
-                  //         );
-                  //       })
-                  // ]
+              GoRoute(
+                path: '/ProjectMain',
+                name: 'ProjectMain',
+                builder: (context, state) {
+                  return ProjectMain(
+                    key: state.pageKey,
+                  );
+                },
+                // routes: [
+                //   GoRoute(path: 'NewSchedulePage',
+                //       name: 'NewSchedulePage',
+                //       builder: (context, state) {
+                //         return NewSchedulePage(
+                //           key: state.pageKey,
+                //         );
+                //       })
+                // ]
               )
             ],
           ),

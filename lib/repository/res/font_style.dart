@@ -39,7 +39,7 @@ const TextStyle headerTextField = TextStyle(
     fontWeight: FontWeight.w500,
     color: ListColor.gray700);
 
-const TextStyle textPassword = TextStyle(
+const TextStyle textGreen = TextStyle(
     fontFamily: "Satoshi",
     fontWeight: FontWeight.w500,
     color: ListColor.primary);
