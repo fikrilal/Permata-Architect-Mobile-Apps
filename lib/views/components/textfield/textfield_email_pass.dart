@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../repository/res/color_libraries.dart';
 
-Widget PrimaryTextfield(
+Widget EmailPassTextfield(
     String text,
     String svgIconPath,
     bool isPasswordType,
