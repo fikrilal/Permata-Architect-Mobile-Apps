@@ -14,7 +14,7 @@ const TextStyle headerFontMenu = TextStyle(
 
 const TextStyle textFontBlue = TextStyle(
     fontFamily: "Satoshi",
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w500,
     color: ListColor.blue600);
 
 const TextStyle regularFont = TextStyle(

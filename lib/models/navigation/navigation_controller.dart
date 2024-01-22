@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permata_architect_mobile_apps/views/pages/dashboard/dashboard.dart';
+import 'package:permata_architect_mobile_apps/views/pages/intro/splash_screen_page.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_list.dart';
 
 import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
@@ -10,7 +12,7 @@ class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/LoginPage'; //Halaman pertama ketika aplikasi dijalankan
+      '/SplashPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
@@ -27,6 +29,15 @@ class NavigationController {
         name: 'LoginPage',
         builder: (context, state) {
           return LoginPage(
+            key: state.pageKey,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/SplashPage',
+        name: 'SplashPage',
+        builder: (context, state) {
+          return SplashScreen(
             key: state.pageKey,
           );
         },
@@ -54,23 +65,33 @@ class NavigationController {
           StatefulShellBranch(
             navigatorKey: _rootNavigatorProject,
             routes: [
+              // GoRoute(
+              //   path: '/ProjectMain',
+              //   name: 'ProjectMain',
+              //   builder: (context, state) {
+              //     return ProjectMain(
+              //       key: state.pageKey,
+              //     );
+              //   },
+              //   // routes: [
+              //   //   GoRoute(path: 'NewSchedulePage',
+              //   //       name: 'NewSchedulePage',
+              //   //       builder: (context, state) {
+              //   //         return NewSchedulePage(
+              //   //           key: state.pageKey,
+              //   //         );
+              //   //       })
+              //   // ]
+              // ),
               GoRoute(
-                path: '/ProjectMain',
-                name: 'ProjectMain',
+                path: '/ProjectListdPage',
+                name: 'ProjectListdPage',
                 builder: (context, state) {
-                  return ProjectMain(
+                  return ProjectList(
                     key: state.pageKey,
                   );
                 },
-                // routes: [
-                //   GoRoute(path: 'NewSchedulePage',
-                //       name: 'NewSchedulePage',
-                //       builder: (context, state) {
-                //         return NewSchedulePage(
-                //           key: state.pageKey,
-                //         );
-                //       })
-                // ]
+                // routes:
               )
             ],
           ),

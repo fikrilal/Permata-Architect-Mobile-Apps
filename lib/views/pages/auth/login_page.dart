@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_email_pass.dart';
 
@@ -88,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     print(
                         "Email Kamu $emailInput dan password kamu $passwordInput");
+                    context.go("/DashboardPage");
                   }),
               Expanded(child: Container()),
               GestureDetector(
