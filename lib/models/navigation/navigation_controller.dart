@@ -7,6 +7,7 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_list.
 import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
 import '../../views/pages/projects/project_main.dart';
+import '../../views/pages/projects/project_tambah_pengeluaran.dart';
 
 class NavigationController {
   NavigationController._();
