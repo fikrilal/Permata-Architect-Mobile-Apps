@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permata_architect_mobile_apps/views/pages/dashboard/dashboard.dart';
 import 'package:permata_architect_mobile_apps/views/pages/intro/splash_screen_page.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_absensi.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_list.dart';
 
 import '../../views/components/navigation/bottom_navigation.dart';
@@ -13,7 +14,7 @@ class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/SplashPage'; //Halaman pertama ketika aplikasi dijalankan
+      '/AbsensiPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
@@ -30,6 +31,15 @@ class NavigationController {
         name: 'LoginPage',
         builder: (context, state) {
           return LoginPage(
+            key: state.pageKey,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/AbsensiPage',
+        name: 'AbsensiPage',
+        builder: (context, state) {
+          return ProjectAbsensi(
             key: state.pageKey,
           );
         },
