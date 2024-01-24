@@ -37,7 +37,7 @@ class _ProjectAbsensiState extends State<ProjectAbsensi> {
       body: ListView.builder(
         itemCount: namaPegawai.length,
         itemBuilder: (context, index) {
-          return ListNama(
+          return listNama(
               name: namaPegawai[index],
               valueName: absensiKehadiran[index],
               index: index);
@@ -46,7 +46,7 @@ class _ProjectAbsensiState extends State<ProjectAbsensi> {
     );
   }
 
-  Widget ListNama({String? name, String? valueName, int? index}) {
+  Widget listNama({String? name, String? valueName, int? index}) {
     return Column(
       children: [
         Padding(

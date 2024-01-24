@@ -3,18 +3,20 @@ import 'package:go_router/go_router.dart';
 import 'package:permata_architect_mobile_apps/views/pages/dashboard/dashboard.dart';
 import 'package:permata_architect_mobile_apps/views/pages/intro/splash_screen_page.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_absensi.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_kasbon.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_list.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_tambah_progress.dart';
 
 import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
-import '../../views/pages/projects/project_main.dart';
-import '../../views/pages/projects/project_tambah_pengeluaran.dart';
+// import '../../views/pages/projects/project_main.dart';
+// import '../../views/pages/projects/project_tambah_pengeluaran.dart';
 
 class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/AbsensiPage'; //Halaman pertama ketika aplikasi dijalankan
+      '/KasbonPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
@@ -40,6 +42,15 @@ class NavigationController {
         name: 'AbsensiPage',
         builder: (context, state) {
           return ProjectAbsensi(
+            key: state.pageKey,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/KasbonPage',
+        name: 'KasbonPage',
+        builder: (context, state) {
+          return ProjectTambahProgress(
             key: state.pageKey,
           );
         },

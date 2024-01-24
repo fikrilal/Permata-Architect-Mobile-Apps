@@ -11,8 +11,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
-    Future.delayed(Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 3000), () {
       context.go("/LoginPage");
     });
     super.initState();
@@ -20,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: Center(
           child: Container(

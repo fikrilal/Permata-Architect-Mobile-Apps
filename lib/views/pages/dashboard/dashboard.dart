@@ -99,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       height: 56,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               image:
                                   AssetImage("assets/images/construction.png")),
                           borderRadius: BorderRadius.circular(8)),

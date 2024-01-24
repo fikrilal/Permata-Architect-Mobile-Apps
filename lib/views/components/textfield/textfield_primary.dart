@@ -85,6 +85,91 @@ Widget textFieldForm(
   );
 }
 
+Widget textFieldFormParagraph(
+    {TextEditingController? controller,
+    String? text,
+    String? header,
+    TextInputType? keyboardType}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "$header",
+        style: headerTextField.copyWith(fontSize: 18),
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      TextFormField(
+        controller: controller,
+        enableSuggestions: true,
+        autocorrect: true,
+        // textInputAction: TextInputAction.none,
+        maxLines: null,
+        minLines: 3,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+        cursorColor: ListColor.primary,
+        style: const TextStyle(
+          fontFamily: 'Satoshi',
+          fontWeight: FontWeight.w500,
+          fontSize: 18,
+          color: ListColor.gray700, // Warna teks dalam TextField
+        ),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(18),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: ListColor.gray200,
+              width: 1,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: ListColor.primary,
+              width: 1,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: ListColor.primary,
+              width: 1,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: Colors.redAccent,
+              width: 1,
+            ),
+          ),
+          labelText: text,
+          alignLabelWithHint: true,
+          labelStyle: const TextStyle(
+            fontFamily: 'Satoshi',
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: ListColor.gray500,
+          ),
+          filled: false,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+        ),
+        keyboardType: keyboardType,
+      ),
+      const SizedBox(
+        height: 10,
+      )
+    ],
+  );
+}
+
 Widget uploadImages({String? header, String? text}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
