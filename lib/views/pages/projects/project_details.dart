@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
+import 'package:permata_architect_mobile_apps/views/components/card/card_fixed.dart';
 
+import '../../components/card/card_expandable.dart';
 import '../../components/text/description.dart';
 import '../../components/text/header.dart';
 
@@ -228,24 +230,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               ),
               Column(
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(16),
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFFE5E7EB)),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextDescriptionSmall("Total Pemasukan"),
-                        SizedBox(height: 16),
-                        TextPoint("Rp 15.000.000"),
-                      ],
-                    ),
+                  FixedCard(
+                    description: "Total Pemasukan",
+                    amount: "Rp 15.000",
                   ),
                   SizedBox(height: 8.w),
                   Row(
@@ -253,46 +240,18 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                       Expanded(
                         child: Row(
                           children: [
-                            Expanded(child:
-                            Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(width: 1, color: Color(0xFFE5E7EB)),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                            Expanded(
+                              child: ExpandableCard(
+                                description: "Total Pemasukan",
+                                amount: "Rp 15.000",
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextDescriptionSmall("Total Pemasukan"),
-                                  SizedBox(height: 16),
-                                  TextPoint("Rp 15.000"),
-                                ],
-                              ),
-                            ),
                             ),
                             SizedBox(width: 8.w),
-                            Expanded(child:
-                            Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(width: 1, color: Color(0xFFE5E7EB)),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                            Expanded(
+                              child: ExpandableCard(
+                                description: "Total Pemasukan",
+                                amount: "Rp 15.000",
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextDescriptionSmall("Total Pemasukan"),
-                                  SizedBox(height: 16),
-                                  TextPoint("Rp 15.000"),
-                                ],
-                              ),
-                            ),
                             ),
                           ],
                         ),
