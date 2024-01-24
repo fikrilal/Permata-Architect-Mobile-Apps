@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 
 class ProjectMain extends StatefulWidget {
   const ProjectMain({super.key});
@@ -17,13 +18,18 @@ class _ProjectMainState extends State<ProjectMain> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-                'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-                'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris '
-                'nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in '
-                'reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-            textAlign: TextAlign.center,
+          child: TextFormField(
+            decoration: InputDecoration(
+              hintText: 'Enter your username',
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: ListColor.gray300),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: ListColor.primary),
+              ),
+            ),
           ),
         ),
       ),

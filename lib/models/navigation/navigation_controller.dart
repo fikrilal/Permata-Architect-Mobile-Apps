@@ -9,14 +9,15 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_tamba
 
 import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
-// import '../../views/pages/projects/project_main.dart';
-// import '../../views/pages/projects/project_tambah_pengeluaran.dart';
+import '../../views/pages/projects/project_details.dart';
+import '../../views/pages/projects/project_main.dart';
+import '../../views/pages/projects/project_tambah_pengeluaran.dart';
 
 class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/KasbonPage'; //Halaman pertama ketika aplikasi dijalankan
+      '/ProjectDetails'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
@@ -60,6 +61,15 @@ class NavigationController {
         name: 'SplashPage',
         builder: (context, state) {
           return SplashScreen(
+            key: state.pageKey,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/ProjectDetails',
+        name: 'ProjectDetails',
+        builder: (context, state) {
+          return ProjectDetails(
             key: state.pageKey,
           );
         },
