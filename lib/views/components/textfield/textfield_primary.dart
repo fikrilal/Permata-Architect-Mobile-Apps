@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 
@@ -17,7 +18,7 @@ Widget textFieldForm(
         style: headerTextField.copyWith(fontSize: 18),
       ),
       const SizedBox(
-        height: 5,
+        height: 8,
       ),
       TextFormField(
         controller: controller,
@@ -79,7 +80,7 @@ Widget textFieldForm(
         keyboardType: keyboardType,
       ),
       const SizedBox(
-        height: 10,
+        height: 20,
       )
     ],
   );
@@ -98,7 +99,7 @@ Widget textFieldFormParagraph(
         style: headerTextField.copyWith(fontSize: 18),
       ),
       const SizedBox(
-        height: 5,
+        height: 8,
       ),
       TextFormField(
         controller: controller,
@@ -179,20 +180,20 @@ Widget uploadImages({String? header, String? text}) {
         style: headerTextField.copyWith(fontSize: 18),
       ),
       const SizedBox(
-        height: 5,
+        height: 8,
       ),
       DottedBorder(
         borderType: BorderType.RRect,
-        radius: const Radius.circular(12),
+        radius: const Radius.circular(8),
         dashPattern: [6, 5],
         color: ListColor.gray300,
-        borderPadding: const EdgeInsets.all(2),
+        borderPadding: const EdgeInsets.all(5),
         padding: const EdgeInsets.all(6),
         strokeCap: StrokeCap.round,
         child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: Container(
-            height: 112,
+            padding: EdgeInsets.all(20),
             width: double.infinity,
             color: ListColor.gray100,
             child: Column(
@@ -200,12 +201,14 @@ Widget uploadImages({String? header, String? text}) {
               children: [
                 const Icon(
                   Hicons.document_upload_4_bold,
-                  color: ListColor.gray400,
+                  color: ListColor.gray400, size: 24,
                 ),
+                SizedBox(height: 6.h),
                 Text(
                   "$text",
                   style: headerTextField.copyWith(fontSize: 18),
                 ),
+                SizedBox(height: 2.h),
                 Text(
                   "*JPG, JPEG, PNG",
                   style: regularFont.copyWith(

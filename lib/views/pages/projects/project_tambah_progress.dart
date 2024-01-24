@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 
+import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
+import '../../components/text/header.dart';
 
 class ProjectTambahProgress extends StatefulWidget {
   const ProjectTambahProgress({super.key});
@@ -21,17 +24,26 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Progress Lokasi Proyek 1",
-          style: headerTextField.copyWith(fontSize: 18),
-        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-            onPressed: () {}, icon: const Icon(Hicons.left_1_light_outline)),
-        surfaceTintColor: Colors.white,
+          icon: const Icon(Icons.arrow_back, color: ListColor.gray500),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: ComponentTextAppBar("Progres Lokasi Proyek 1"),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1.h),
+          child: Container(
+            color: ListColor.gray200,
+            height: 1.0,
+          ),
+        ),
       ),
       body: Form(
           child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -48,7 +60,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
               textFieldFormParagraph(
                   controller: _controllerKeterangan,
                   text: "Keterangan Progress",
-                  header: "keterangan Progress",
+                  header: "Keterangan Progress",
                   keyboardType: TextInputType.multiline),
               uploadImages(header: "Foto", text: "Upload Foto Progress")
             ],

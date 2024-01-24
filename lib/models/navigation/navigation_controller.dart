@@ -17,7 +17,7 @@ class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/ProjectDetails'; //Halaman pertama ketika aplikasi dijalankan
+      '/AbsensiPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
@@ -51,7 +51,7 @@ class NavigationController {
         path: '/KasbonPage',
         name: 'KasbonPage',
         builder: (context, state) {
-          return ProjectTambahProgress(
+          return ProjectKasbon(
             key: state.pageKey,
           );
         },

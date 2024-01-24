@@ -14,7 +14,7 @@ class ComponentTextAppBar extends StatelessWidget {
       "${text}",
       style:  TextStyle(
         fontFamily: 'Satoshi',
-        fontSize: 18.sp,
+        fontSize: 16.sp,
         color: ListColor.gray700,
         fontWeight: FontWeight.w500,
       ),
