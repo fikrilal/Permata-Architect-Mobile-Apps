@@ -5,6 +5,7 @@ import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dar
 import 'package:permata_architect_mobile_apps/views/components/card/card_fixed.dart';
 
 import '../../components/card/card_expandable.dart';
+import '../../components/card/card_list.dart';
 import '../../components/text/description.dart';
 import '../../components/text/header.dart';
 
@@ -46,179 +47,40 @@ class _ProjectDetailsState extends State<ProjectDetails> {
           child: Column(
             children: [
               //Absensi
-              InkWell(
-                onTap: (){
-                  //ke halaman yang dituju
+              CardList(
+                iconPath: 'assets/icons/attendance.svg',
+                title: 'Absensi',
+                onTap: () {
+                  // ke halaman yang dituju
                 },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: ListColor.gray200),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/attendance.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                        SizedBox(width: 16.w,),
-                        TextDescriptionMain("Absensi"),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/arrow-right.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
-              //Pemasukan
-              InkWell(
-                onTap: (){
-                  //ke halaman yang dituju
+              CardList(
+                iconPath: 'assets/icons/request-money.svg',
+                title: 'Pemasukan',
+                onTap: () {
+                  // ke halaman yang dituju
                 },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: ListColor.gray200),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/request-money.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                        SizedBox(width: 16.w,),
-                        TextDescriptionMain("Pemasukan"),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/arrow-right.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
-              //Pengeluaran
-              InkWell(
-                onTap: (){
-                  //ke halaman yang dituju
+              CardList(
+                iconPath: 'assets/icons/money-transfer.svg',
+                title: 'Pengeluaran',
+                onTap: () {
+                  // ke halaman yang dituju
                 },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: ListColor.gray200),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/money-transfer.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                        SizedBox(width: 16.w,),
-                        TextDescriptionMain("Pengeluaran"),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/arrow-right.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
-              //Kasbon
-              InkWell(
-                onTap: (){
-                  //ke halaman yang dituju
+              CardList(
+                iconPath: 'assets/icons/money-pocket.svg',
+                title: 'Kasbon',
+                onTap: () {
+                  // ke halaman yang dituju
                 },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: ListColor.gray200),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/money-pocket.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                        SizedBox(width: 16.w,),
-                        TextDescriptionMain("Kasbon"),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/arrow-right.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
-              //Progress
-              InkWell(
-                onTap: (){
-                  //ke halaman yang dituju
+              CardList(
+                iconPath: 'assets/icons/progress.svg',
+                title: 'Progress',
+                onTap: () {
+                  // ke halaman yang dituju
                 },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: ListColor.gray200),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/progress.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                        SizedBox(width: 16.w,),
-                        TextDescriptionMain("Progress"),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/arrow-right.svg',
-                          width: 24.w,
-                          height: 24.h,
-                          color: ListColor.gray700,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
               const Divider(
                 height: 1,
