@@ -43,7 +43,7 @@ class NavigationController {
         path: '/AbsensiPage',
         name: 'AbsensiPage',
         builder: (context, state) {
-          return ProjectTambahPemasukan(
+          return ProjectList(
             key: state.pageKey,
           );
         },

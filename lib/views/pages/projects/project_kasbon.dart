@@ -8,6 +8,7 @@ import 'package:permata_architect_mobile_apps/views/components/button/button_pri
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 
 import '../../components/text/header.dart';
+import '../../components/textfield/textfield_search.dart';
 
 class ProjectKasbon extends StatefulWidget {
   const ProjectKasbon({super.key});
@@ -55,7 +56,7 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
         child: Padding(
           padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
           child: Column(children: [
-            textFieldSearch(
+            TextFieldSearchWidget(
                 controller: _controllerSearchName,
                 keyboardType: TextInputType.name,
                 text: "Cari Pekerja.."),
@@ -118,82 +119,6 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget textFieldSearch(
-      {TextEditingController? controller,
-      TextInputType? keyboardType,
-      String? text}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: TextFormField(
-        controller: controller,
-        enableSuggestions: true,
-        autocorrect: true,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-        cursorColor: ListColor.primary,
-        style: const TextStyle(
-          fontFamily: 'Satoshi',
-          fontWeight: FontWeight.w500,
-          fontSize: 18,
-          color: ListColor.gray700, // Warna teks dalam TextField
-        ),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(16.w),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: ListColor.gray200,
-              width: 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: ListColor.primary,
-              width: 1,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: ListColor.primary,
-              width: 1,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: Colors.redAccent,
-              width: 1,
-            ),
-          ),
-          labelText: text,
-          prefixIcon: Container(
-            width: 54,
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 16.w),
-              child: const Icon(Hicons.search_2_light_outline),
-            ),
-          ),
-          labelStyle: const TextStyle(
-            fontFamily: 'Satoshi',
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
-            color: ListColor.gray500,
-          ),
-          filled: false,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-        ),
-        keyboardType: keyboardType,
-      ),
     );
   }
 

@@ -13,7 +13,7 @@ class ExpandableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(

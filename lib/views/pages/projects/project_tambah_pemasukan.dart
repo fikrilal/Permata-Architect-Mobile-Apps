@@ -40,6 +40,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
             height: 1.0,
           ),
         ),
+        surfaceTintColor: Colors.white,
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 20.h),
