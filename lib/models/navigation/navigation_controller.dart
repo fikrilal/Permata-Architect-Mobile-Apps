@@ -11,6 +11,7 @@ import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
 import '../../views/pages/projects/project_details.dart';
 import '../../views/pages/projects/project_main.dart';
+import '../../views/pages/projects/project_tambah_pemasukan.dart';
 import '../../views/pages/projects/project_tambah_pengeluaran.dart';
 
 class NavigationController {
@@ -42,7 +43,7 @@ class NavigationController {
         path: '/AbsensiPage',
         name: 'AbsensiPage',
         builder: (context, state) {
-          return ProjectAbsensi(
+          return ProjectTambahPemasukan(
             key: state.pageKey,
           );
         },
