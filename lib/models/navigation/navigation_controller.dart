@@ -43,7 +43,7 @@ class NavigationController {
         path: '/AbsensiPage',
         name: 'AbsensiPage',
         builder: (context, state) {
-          return ProjectList(
+          return ProjectDetails(
             key: state.pageKey,
           );
         },
@@ -98,34 +98,24 @@ class NavigationController {
           StatefulShellBranch(
             navigatorKey: _rootNavigatorProject,
             routes: [
-              // GoRoute(
-              //   path: '/ProjectMain',
-              //   name: 'ProjectMain',
-              //   builder: (context, state) {
-              //     return ProjectMain(
-              //       key: state.pageKey,
-              //     );
-              //   },
-              //   // routes: [
-              //   //   GoRoute(path: 'NewSchedulePage',
-              //   //       name: 'NewSchedulePage',
-              //   //       builder: (context, state) {
-              //   //         return NewSchedulePage(
-              //   //           key: state.pageKey,
-              //   //         );
-              //   //       })
-              //   // ]
-              // ),
               GoRoute(
                 path: '/ProjectListdPage',
                 name: 'ProjectListdPage',
                 builder: (context, state) {
-                  return ProjectList(
+                  return ProjectMain(
                     key: state.pageKey,
                   );
                 },
-                // routes:
-              )
+                // routes: [
+                //   GoRoute(path: 'AbsensiPage',
+                //       name: 'AbsensiPage',
+                //       builder: (context, state) {
+                //         return ProjectAbsensi(
+                //           key: state.pageKey,
+                //         );
+                //       })
+                // ]
+              ),
             ],
           ),
         ],

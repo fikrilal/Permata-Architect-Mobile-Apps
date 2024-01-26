@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../repository/res/color_libraries.dart';
+import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
 import '../../components/text/header.dart';
 import '../../components/textfield/textfield_primary.dart';
@@ -23,24 +24,11 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ListColor.gray500),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ComponentTextAppBar("Tambah Pemasukan"),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0),
-          child: Container(
-            color: ListColor.gray200,
-            height: 1.0,
-          ),
-        ),
-        surfaceTintColor: Colors.white,
+      appBar: CustomAppBar(
+        title: "Tambah Pemasukan",
+        onBack: () {
+          Navigator.of(context).pop();
+        },
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 20.h),

@@ -5,6 +5,8 @@ import 'package:permata_architect_mobile_apps/views/components/textfield/textfie
 
 import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
+import '../../components/appbar/custom_appbar.dart';
+import '../../components/button/button_primary.dart';
 import '../../components/text/header.dart';
 
 class ProjectTambahProgress extends StatefulWidget {
@@ -19,29 +21,20 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
   final TextEditingController _controllerDetailLokasi = TextEditingController();
   final TextEditingController _controllerProgress = TextEditingController();
   final TextEditingController _controllerKeterangan = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ListColor.gray500),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ComponentTextAppBar("Progres Lokasi Proyek 1"),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.h),
-          child: Container(
-            color: ListColor.gray200,
-            height: 1.0,
-          ),
-        ),
+      appBar: CustomAppBar(
+        title: "Progress Lokasi Proyek 1",
+        onBack: () {
+          Navigator.of(context).pop();
+        },
       ),
       body: Form(
+          key: _formKey,
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
         child: SingleChildScrollView(
@@ -62,7 +55,17 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                   text: "Keterangan Progress",
                   header: "Keterangan Progress",
                   keyboardType: TextInputType.multiline),
-              uploadImages(header: "Foto", text: "Upload Foto Progress")
+              uploadImages(header: "Foto", text: "Upload Foto Progress"),
+              SizedBox(height: 24.h),
+              primaryButton(
+                  text: "Simpan",
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      print("Dah Lengkap");
+                    } else {
+                      print("Lengkapi dahulu");
+                    }
+                  }),
             ],
           ),
         ),

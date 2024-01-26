@@ -3,7 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/views/components/card/card_fixed.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_absensi.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_kasbon.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_tambah_pemasukan.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_tambah_pengeluaran.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_tambah_progress.dart';
 
+import '../../components/appbar/custom_appbar.dart';
 import '../../components/card/card_expandable.dart';
 import '../../components/card/card_list.dart';
 import '../../components/text/description.dart';
@@ -20,24 +26,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ListColor.gray500),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ComponentTextAppBar("Detail Proyek"),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0),
-          child: Container(
-            color: ListColor.gray200,
-            height: 1.0,
-          ),
-        ),
-        surfaceTintColor: Colors.white,
+      appBar: CustomAppBar(
+        title: "Detail Proyek",
+        onBack: () {
+          Navigator.of(context).pop();
+        },
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(16.w, 0.h, 16.w, 20.h),
@@ -52,35 +45,50 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 iconPath: 'assets/icons/attendance.svg',
                 title: 'Absensi',
                 onTap: () {
-                  // ke halaman yang dituju
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProjectAbsensi()),
+                  );
                 },
               ),
               CardList(
                 iconPath: 'assets/icons/request-money.svg',
                 title: 'Pemasukan',
                 onTap: () {
-                  // ke halaman yang dituju
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProjectTambahPemasukan()),
+                  );
                 },
               ),
               CardList(
                 iconPath: 'assets/icons/money-transfer.svg',
                 title: 'Pengeluaran',
                 onTap: () {
-                  // ke halaman yang dituju
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProjectTambahPengeluaran()),
+                  );
                 },
               ),
               CardList(
                 iconPath: 'assets/icons/money-pocket.svg',
                 title: 'Kasbon',
                 onTap: () {
-                  // ke halaman yang dituju
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProjectKasbon()),
+                  );
                 },
               ),
               CardList(
                 iconPath: 'assets/icons/progress.svg',
                 title: 'Progress',
                 onTap: () {
-                  // ke halaman yang dituju
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProjectTambahProgress()),
+                  );
                 },
               ),
               const Divider(
