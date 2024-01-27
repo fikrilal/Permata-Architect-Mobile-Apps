@@ -7,6 +7,7 @@ import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 
+import '../../components/appbar/custom_appbar.dart';
 import '../../components/text/header.dart';
 import '../../components/textfield/textfield_search.dart';
 
@@ -33,23 +34,11 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: ListColor.gray500),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: ComponentTextAppBar("Kasbon"),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.h),
-          child: Container(
-            color: ListColor.gray200,
-            height: 1.0,
-          ),
-        ),
+      appBar: CustomAppBar(
+        title: "Kasbon",
+        onBack: () {
+          Navigator.of(context).pop();
+        },
       ),
       body: SafeArea(
           child: SingleChildScrollView(

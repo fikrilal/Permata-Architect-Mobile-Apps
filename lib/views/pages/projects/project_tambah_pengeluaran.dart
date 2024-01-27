@@ -4,6 +4,10 @@ import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 
+import '../../../repository/res/color_libraries.dart';
+import '../../components/appbar/custom_appbar.dart';
+import '../../components/text/header.dart';
+
 class ProjectTambahPengeluaran extends StatefulWidget {
   const ProjectTambahPengeluaran({super.key});
 
@@ -25,14 +29,11 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Tambah Pengeluaran",
-          style: headerTextField.copyWith(fontSize: 18),
-        ),
-        leading: IconButton(
-            onPressed: () {}, icon: const Icon(Hicons.left_1_light_outline)),
-        surfaceTintColor: Colors.white,
+      appBar: CustomAppBar(
+        title: "Tambah Pengeluaran",
+        onBack: () {
+          Navigator.of(context).pop();
+        },
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),

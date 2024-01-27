@@ -10,7 +10,7 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_tamba
 import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
 import '../../views/pages/projects/project_details.dart';
-import '../../views/pages/projects/project_main.dart';
+// import '../../views/pages/projects/project_main.dart';
 import '../../views/pages/projects/project_tambah_pemasukan.dart';
 import '../../views/pages/projects/project_tambah_pengeluaran.dart';
 
@@ -99,33 +99,23 @@ class NavigationController {
             navigatorKey: _rootNavigatorProject,
             routes: [
               // GoRoute(
-              //   path: '/ProjectMain',
-              //   name: 'ProjectMain',
+              //   path: '/ProjectListdPage',
+              //   name: 'ProjectListdPage',
               //   builder: (context, state) {
               //     return ProjectMain(
               //       key: state.pageKey,
               //     );
               //   },
-              //   // routes: [
-              //   //   GoRoute(path: 'NewSchedulePage',
-              //   //       name: 'NewSchedulePage',
-              //   //       builder: (context, state) {
-              //   //         return NewSchedulePage(
-              //   //           key: state.pageKey,
-              //   //         );
-              //   //       })
-              //   // ]
-              // ),
-              GoRoute(
-                path: '/ProjectListdPage',
-                name: 'ProjectListdPage',
-                builder: (context, state) {
-                  return ProjectList(
-                    key: state.pageKey,
-                  );
-                },
-                // routes:
-              )
+                // routes: [
+                //   GoRoute(path: 'AbsensiPage',
+                //       name: 'AbsensiPage',
+                //       builder: (context, state) {
+                //         return ProjectAbsensi(
+                //           key: state.pageKey,
+                //         );
+                //       })
+                // ]
+              ),
             ],
           ),
         ],
