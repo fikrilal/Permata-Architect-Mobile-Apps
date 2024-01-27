@@ -43,7 +43,7 @@ class NavigationController {
         path: '/AbsensiPage',
         name: 'AbsensiPage',
         builder: (context, state) {
-          return ProjectTambahProgress(
+          return ProjectTambahPemasukan(
             key: state.pageKey,
           );
         },
@@ -98,14 +98,14 @@ class NavigationController {
           StatefulShellBranch(
             navigatorKey: _rootNavigatorProject,
             routes: [
-              // GoRoute(
-              //   path: '/ProjectListdPage',
-              //   name: 'ProjectListdPage',
-              //   builder: (context, state) {
-              //     return ProjectMain(
-              //       key: state.pageKey,
-              //     );
-              //   },
+              GoRoute(
+                path: '/ProjectListdPage',
+                name: 'ProjectListdPage',
+                builder: (context, state) {
+                  return ProjectList(
+                    key: state.pageKey,
+                  );
+                },
                 // routes: [
                 //   GoRoute(path: 'AbsensiPage',
                 //       name: 'AbsensiPage',

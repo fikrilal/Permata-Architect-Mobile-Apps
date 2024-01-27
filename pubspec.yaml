@@ -41,6 +41,8 @@ dependencies:
   zoom_tap_animation: ^1.1.0
   dotted_border: ^2.1.0
   dropdown_button2: ^2.3.9
+  image_picker: ^1.0.7
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

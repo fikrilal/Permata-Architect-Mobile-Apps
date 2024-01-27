@@ -65,48 +65,50 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
       ),
       body: Form(
           key: _formKey,
-          child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-              child: Column(
-                children: [
-                  textFieldForm(
-                      controller: _controllerNameSueveyor,
-                      text: "Nama Sueveyor",
-                      header: "Nama Sueveyor",
-                      keyboardType: TextInputType.name),
-                  textFieldForm(
-                      controller: _controllerDetailLokasi,
-                      text: "Detail Lokasi",
-                      header: "Detail Lokasi",
-                      keyboardType: TextInputType.streetAddress),
-                  textFieldShowBottomSheet(
-                      controller: _controllerProgress,
-                      text: "Progress Pengerjaan",
-                      hightBottomSheet: bodyHeight,
-                      header: "Pilih Progress"),
-                  textFieldFormParagraph(
-                      controller: _controllerKeterangan,
-                      text: "Keterangan Progress",
-                      header: "Keterangan Progress",
-                      keyboardType: TextInputType.multiline),
-                  uploadImages(
-                    header: "Foto",
-                    text: "Upload Foto Progress",
-                    onPressed: () {},
-                  ),
-                  SizedBox(height: 24.h),
-                  primaryButton(
-                      text: "Simpan",
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print("Dah Lengkap");
-                        } else {
-                          print("Lengkapi dahulu");
-                        }
-                      }),
-                ],
-              ))),
+          child: SingleChildScrollView(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                child: Column(
+                  children: [
+                    textFieldForm(
+                        controller: _controllerNameSueveyor,
+                        text: "Nama Sueveyor",
+                        header: "Nama Sueveyor",
+                        keyboardType: TextInputType.name),
+                    textFieldForm(
+                        controller: _controllerDetailLokasi,
+                        text: "Detail Lokasi",
+                        header: "Detail Lokasi",
+                        keyboardType: TextInputType.streetAddress),
+                    textFieldShowBottomSheet(
+                        controller: _controllerProgress,
+                        text: "Progress Pengerjaan",
+                        hightBottomSheet: bodyHeight,
+                        header: "Pilih Progress"),
+                    textFieldFormParagraph(
+                        controller: _controllerKeterangan,
+                        text: "Keterangan Progress",
+                        header: "Keterangan Progress",
+                        keyboardType: TextInputType.multiline),
+                    uploadImages(
+                      header: "Foto",
+                      text: "Upload Foto Progress",
+                      onPressed: () {},
+                    ),
+                    SizedBox(height: 24.h),
+                    primaryButton(
+                        text: "Simpan",
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            print("Dah Lengkap");
+                          } else {
+                            print("Lengkapi dahulu");
+                          }
+                        }),
+                  ],
+                )),
+          )),
     );
   }
 

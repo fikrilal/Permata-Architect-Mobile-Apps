@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../repository/res/color_libraries.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
 import '../../components/text/header.dart';
@@ -20,6 +22,49 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
   final TextEditingController _controllerNominal = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  File? _image;
+
+  void _deleteImage() {
+    setState(() {
+      _image = null;
+    });
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+        print("Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
+      } else {
+        print("Tidak ada gambar yang dipilih");
+      }
+    } catch (e) {
+      print("Terjadi kesalahan saat memilih gambar: $e");
+    }
+  }
+
+  Future<void> uploadImage(File imageFile) async {
+    var uri = Uri.parse('https://api.imgbb.com/1/upload');
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['key'] = '134113064fd64005338a64d3d654c6f9'
+      ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+      print('Upload berhasil: $responseString');
+    } else {
+      print('Upload gagal');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +100,51 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                     header: "Nominal",
                     text: "Rp",
                     keyboardType: TextInputType.text),
-                uploadImages(header: "Nota Pendanaan", text: "Upload Bukti Nota"),
+                uploadImages(
+                  header: "Nota Pendanaan",
+                  text: "Upload Bukti Nota",
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Pilih Sumber Gambar"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.photo_library),
+                                title: Text("Galeri"),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _pickImage(ImageSource.gallery);
+                                },
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.camera_alt),
+                                title: Text("Kamera"),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _pickImage(ImageSource.camera);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  imageFile: _image,
+                  onDelete: _deleteImage,
+                ),
                 SizedBox(height: 24.h),
                 primaryButton(
                     text: "Simpan",
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        print("Dah Lengkap");
+                      if (_formKey.currentState!.validate() && _image != null) {
+                        uploadImage(_image!);
                       } else {
-                        print("Lengkapi dahulu");
+                        print("Lengkapi data dan pilih gambar dahulu");
                       }
                     }),
               ],

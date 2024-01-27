@@ -1,9 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
+import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
+import 'package:path/path.dart' as path;
 
 Widget textFieldForm(
     {TextEditingController? controller,
@@ -171,7 +174,18 @@ Widget textFieldFormParagraph(
   );
 }
 
-Widget uploadImages({String? header, String? text, VoidCallback? onPressed}) {
+Widget uploadImages(
+    {String? header,
+    String? text,
+    VoidCallback? onPressed,
+    File? imageFile,
+    VoidCallback? onDelete}) {
+  String fileName =
+      imageFile != null ? path.basename(imageFile.path) : 'Tidak ada file';
+  String fileSize = imageFile != null
+      ? '${(imageFile.lengthSync() / 1024).toStringAsFixed(2)} KB'
+      : 'Ukuran tidak diketahui';
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -182,49 +196,106 @@ Widget uploadImages({String? header, String? text, VoidCallback? onPressed}) {
       const SizedBox(
         height: 8,
       ),
-      DottedBorder(
-        borderType: BorderType.RRect,
-        radius: const Radius.circular(8),
-        dashPattern: [6, 5],
-        color: ListColor.gray300,
-        borderPadding: const EdgeInsets.all(5),
-        padding: const EdgeInsets.all(6),
-        strokeCap: StrokeCap.round,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: InkWell(
-            onTap: onPressed,
-            child: Container(
-              padding: EdgeInsets.all(20),
-              width: double.infinity,
-              color: ListColor.gray100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Hicons.document_upload_4_bold,
-                    color: ListColor.gray400,
-                    size: 24,
+      imageFile == null
+          ? DottedBorder(
+              borderType: BorderType.RRect,
+              radius: const Radius.circular(8),
+              dashPattern: [6, 5],
+              color: ListColor.gray300,
+              borderPadding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(6),
+              strokeCap: StrokeCap.round,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: InkWell(
+                  onTap: onPressed,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    width: double.infinity,
+                    color: ListColor.gray100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Hicons.document_upload_4_bold,
+                          color: ListColor.gray400,
+                          size: 24,
+                        ),
+                        SizedBox(height: 6.h),
+                        Text(
+                          "$text",
+                          style: headerTextField.copyWith(fontSize: 18),
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          "*JPG, JPEG, PNG",
+                          style: regularFont.copyWith(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: ListColor.gray500),
+                        )
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 6.h),
-                  Text(
-                    "$text",
-                    style: headerTextField.copyWith(fontSize: 18),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "*JPG, JPEG, PNG",
-                    style: regularFont.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                        color: ListColor.gray500),
-                  )
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
+            )
+          : Container(
+              padding: EdgeInsets.all(10.w),
+              decoration: BoxDecoration(
+                border: Border.all(color: ListColor.gray300),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ListColor.gray200),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.file(imageFile, fit: BoxFit.cover),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        fileName,
+                        style: subHeaderFont.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        fileSize,
+                        style: subHeaderFont.copyWith(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: onDelete,
+                    child: Container(
+                      padding: EdgeInsets.all(8.w),
+                      decoration: ShapeDecoration(
+                        color: ListColor.gray200,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/icons/delete.svg',
+                        width: 20.w,
+                        height: 20.h,
+                        color: ListColor.gray400,
+                      ),
+                    ),
+                  ),
+                ],
+              ))
     ],
   );
 }
