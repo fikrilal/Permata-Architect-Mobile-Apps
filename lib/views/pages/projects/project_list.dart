@@ -45,7 +45,7 @@ class _ProjectListState extends State<ProjectList> {
                   keyboardType: TextInputType.name,
                   text: "Cari Proyek.."),
               const CardListProject(
-                alamat: "Jl. Suparjan Mangun Wijaya No.02",
+                alamat: "Jl. Suparjan Mangun Wijaya",
                 lokasi: "Lokasi Proyek 1",
                 pemilik: "Ayub Bahrudin",
                 status: "On Progress",

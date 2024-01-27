@@ -171,7 +171,7 @@ Widget textFieldFormParagraph(
   );
 }
 
-Widget uploadImages({String? header, String? text}) {
+Widget uploadImages({String? header, String? text, VoidCallback? onPressed}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -192,31 +192,35 @@ Widget uploadImages({String? header, String? text}) {
         strokeCap: StrokeCap.round,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: Container(
-            padding: EdgeInsets.all(20),
-            width: double.infinity,
-            color: ListColor.gray100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Hicons.document_upload_4_bold,
-                  color: ListColor.gray400, size: 24,
-                ),
-                SizedBox(height: 6.h),
-                Text(
-                  "$text",
-                  style: headerTextField.copyWith(fontSize: 18),
-                ),
-                SizedBox(height: 2.h),
-                Text(
-                  "*JPG, JPEG, PNG",
-                  style: regularFont.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: ListColor.gray500),
-                )
-              ],
+          child: InkWell(
+            onTap: onPressed,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              width: double.infinity,
+              color: ListColor.gray100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Hicons.document_upload_4_bold,
+                    color: ListColor.gray400,
+                    size: 24,
+                  ),
+                  SizedBox(height: 6.h),
+                  Text(
+                    "$text",
+                    style: headerTextField.copyWith(fontSize: 18),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    "*JPG, JPEG, PNG",
+                    style: regularFont.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: ListColor.gray500),
+                  )
+                ],
+              ),
             ),
           ),
         ),

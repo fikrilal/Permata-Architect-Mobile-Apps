@@ -48,13 +48,23 @@ class CardListProject extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(Hicons.location_light_outline,
-                          size: 20.w, color: ListColor.gray500),
+                          size: 20.h, color: ListColor.gray500),
                       SizedBox(width: 10.w),
-                      Text(
-                        "$alamat",
-                        style: subHeaderFont.copyWith(fontSize: 18),
+                      Flexible(
+                        child: Text(
+                          "$alamat",
+                          style: TextStyle(
+                              fontFamily: "Satoshi",
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                              color: ListColor.gray500),
+                          softWrap: true,
+
+                          // maxLines: 2,
+                        ),
                       ),
                     ],
                   ),
@@ -62,11 +72,11 @@ class CardListProject extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Hicons.profile_1_light_outline,
-                          size: 20.w, color: ListColor.gray500),
+                          size: 20.h, color: ListColor.gray500),
                       SizedBox(width: 10.w),
                       Text(
                         "$pemilik",
-                        style: subHeaderFont.copyWith(fontSize: 18),
+                        style: subHeaderFont.copyWith(fontSize: 18.sp),
                       ),
                     ],
                   ),
@@ -87,7 +97,7 @@ class CardListProject extends StatelessWidget {
                           SizedBox(width: 10.w),
                           Text(
                             "$status",
-                            style: textGreen.copyWith(fontSize: 16),
+                            style: textGreen.copyWith(fontSize: 16.sp),
                           ),
                         ],
                       ),
