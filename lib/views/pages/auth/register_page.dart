@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
-import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_email_pass.dart';
+import 'package:permata_architect_mobile_apps/poviders/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../poviders/auth_provider.dart';
+import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
+import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
+import '../../components/textfield/textfield_email_pass.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider =
@@ -26,21 +27,36 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "PermataArchitect",
-                style: headerFontSignInUp.copyWith(fontSize: 30.0),
+                "Daftarkan Dirimu!",
+                style: headerFontSignInUp.copyWith(fontSize: 24.0),
               ),
               Text(
-                "Selamat datang kembali! Masuk menggunakan akun yang terdaftar di Permata Architect",
+                "Selesaikan proses registrasi agar kamu dapat masuk ke dalam aplikasi dan dapat menggunakan fitur sepenuhnya!",
                 style: subHeaderFont.copyWith(fontSize: 18),
               ),
               const SizedBox(
                 height: 20,
+              ),
+              Text(
+                "Nama",
+                style: headerTextField.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              EmailPassField(
+                  text: "Nama Kamu",
+                  svgIconPath: "assets/icons/icons_mail.svg",
+                  controller: _controllerName,
+                  iconColor: ListColor.gray500,
+                  isPasswordType: false),
+              const SizedBox(
+                height: 5,
               ),
               Text(
                 "Email",
@@ -74,33 +90,29 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 5,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  "Lupa Kata Sandi?",
-                  style: textGreen.copyWith(fontSize: 18.0),
-                  textAlign: TextAlign.end,
-                ),
-              ),
               const SizedBox(
                 height: 20,
               ),
               primaryButton(
-                  text: "Masuk",
+                  text: "Daftar",
                   onPressed: () async {
                     String emailInput = _controllerEmail.text;
                     String passwordInput = _controllerPassword.text;
-                    bool resultLogin = await authProvider.accountLogin(
-                        email: emailInput, password: passwordInput);
+                    String nameInput = _controllerName.text;
 
-                    if (resultLogin) {
+                    bool resultRegister = await authProvider.accountRegister(
+                        email: emailInput,
+                        password: passwordInput,
+                        name: nameInput);
+
+                    if (resultRegister) {
                       // ignore: use_build_context_synchronously
-                      context.go("/DashboardPage");
+                      context.go("/LoginPage");
                     } else {
                       // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
-                          "Gagal Login",
+                          "Gagal Register",
                           style: regularFont.copyWith(color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
@@ -111,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
               Expanded(child: Container()),
               GestureDetector(
                 onTap: () {
-                  context.go("/RegisterPage");
+                  context.go("/LoginPage");
                 },
                 child: SizedBox(
                     width: double.infinity,
@@ -119,11 +131,11 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Belum Punya Akun?",
+                          "Sudah Punya Akun?",
                           style: regularFont.copyWith(color: ListColor.gray500),
                         ),
                         Text(
-                          " Daftar",
+                          " Login",
                           style: textGreen.copyWith(fontSize: 18),
                         )
                       ],

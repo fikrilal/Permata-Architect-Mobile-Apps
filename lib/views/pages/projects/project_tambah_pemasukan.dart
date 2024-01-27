@@ -3,10 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
-import '../../components/text/header.dart';
 import '../../components/textfield/textfield_primary.dart';
 
 class ProjectTambahPemasukan extends StatefulWidget {
@@ -40,7 +38,8 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
         setState(() {
           _image = File(pickedFile.path);
         });
-        print("Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
+        print(
+            "Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
       } else {
         print("Tidak ada gambar yang dipilih");
       }

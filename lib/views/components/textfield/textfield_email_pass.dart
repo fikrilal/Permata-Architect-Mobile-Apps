@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../repository/res/color_libraries.dart';
 
+// ignore: must_be_immutable
 class EmailPassField extends StatefulWidget {
   final String text;
   final String svgIconPath;

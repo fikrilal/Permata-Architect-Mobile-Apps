@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/views/components/card/card_fixed.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_absensi.dart';
@@ -12,8 +11,6 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_tamba
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/card/card_expandable.dart';
 import '../../components/card/card_list.dart';
-import '../../components/text/description.dart';
-import '../../components/text/header.dart';
 
 class ProjectDetails extends StatefulWidget {
   const ProjectDetails({super.key});
@@ -47,7 +44,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProjectAbsensi()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProjectAbsensi()),
                   );
                 },
               ),
@@ -57,7 +55,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProjectTambahPemasukan()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProjectTambahPemasukan()),
                   );
                 },
               ),
@@ -67,7 +66,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProjectTambahPengeluaran()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProjectTambahPengeluaran()),
                   );
                 },
               ),
@@ -77,7 +77,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProjectKasbon()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProjectKasbon()),
                   );
                 },
               ),
@@ -87,7 +88,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProjectTambahProgress()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProjectTambahProgress()),
                   );
                 },
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 

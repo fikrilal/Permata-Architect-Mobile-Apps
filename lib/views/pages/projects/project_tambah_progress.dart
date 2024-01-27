@@ -9,7 +9,6 @@ import '../../../repository/res/font_style.dart';
 import '../../components/appbar/custom_appbar.dart';
 
 import '../../components/button/button_primary.dart';
-import '../../components/text/header.dart';
 
 class ProjectTambahProgress extends StatefulWidget {
   const ProjectTambahProgress({super.key});
@@ -40,10 +39,6 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
   void initState() {
     super.initState();
     _isChecked = List<bool>.filled(progressName.length, false);
-    // Inisialisasi Map dengan semua item disetel ke false
-    // for (var itemName in progressName) {
-    //   checkedItems[itemName] = false;
-    // }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -161,7 +156,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
               width: 54,
               alignment: Alignment.centerLeft,
               child: const Padding(
-                padding: const EdgeInsets.only(left: 18.0),
+                padding: EdgeInsets.only(left: 18.0),
                 child: Icon(Hicons.down_2_light_outline),
               ),
             ),
@@ -301,8 +296,9 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                                     checkColor: Colors.white,
                                     activeColor: ListColor.primary,
                                     visualDensity:
-                                        VisualDensity(horizontal: -4),
-                                    side: BorderSide(color: ListColor.gray400),
+                                        const VisualDensity(horizontal: -4),
+                                    side: const BorderSide(
+                                        color: ListColor.gray400),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(4.r)),
@@ -312,7 +308,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "${progressName[index]}",
+                                      "$progressName[index]",
                                       style:
                                           regularFont.copyWith(fontSize: 18.sp),
                                     ),

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 
-import '../../../repository/res/color_libraries.dart';
 import '../../components/appbar/custom_appbar.dart';
-import '../../components/text/header.dart';
 
 class ProjectAbsensi extends StatefulWidget {
   const ProjectAbsensi({super.key});

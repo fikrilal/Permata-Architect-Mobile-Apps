@@ -9,6 +9,7 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_tamba
 
 import '../../views/components/navigation/bottom_navigation.dart';
 import '../../views/pages/auth/login_page.dart';
+import '../../views/pages/auth/register_page.dart';
 import '../../views/pages/projects/project_details.dart';
 // import '../../views/pages/projects/project_main.dart';
 import '../../views/pages/projects/project_tambah_pemasukan.dart';
@@ -18,7 +19,7 @@ class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/AbsensiPage'; //Halaman pertama ketika aplikasi dijalankan
+      '/SplashPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
@@ -35,6 +36,15 @@ class NavigationController {
         name: 'LoginPage',
         builder: (context, state) {
           return LoginPage(
+            key: state.pageKey,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/RegisterPage',
+        name: 'RegisterPage',
+        builder: (context, state) {
+          return RegisterPage(
             key: state.pageKey,
           );
         },

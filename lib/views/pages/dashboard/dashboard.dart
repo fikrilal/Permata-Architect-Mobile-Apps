@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 
@@ -54,16 +55,16 @@ class _DashboardPageState extends State<DashboardPage> {
   //kumpulan widget
   Widget header({String? greeting, String? urlImage}) {
     return ListTile(
-      leading: Container(
-        width: 56,
-        height: 56,
+      leading: SizedBox(
+        width: 56.w,
+        height: 56.h,
         child: const CircleAvatar(
           backgroundImage: AssetImage("assets/images/blank_man_picture.png"),
         ),
       ),
       contentPadding: const EdgeInsets.all(0),
       title: Text(
-        "${greeting}",
+        "$greeting",
         style: headerFontMenu.copyWith(fontSize: 20),
       ),
       subtitle: Text(
