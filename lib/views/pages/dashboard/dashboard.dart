@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permata_architect_mobile_apps/models/proyek_model/list_cost_proyek_model.dart';
+import 'package:permata_architect_mobile_apps/poviders/auth_provider.dart';
+import 'package:permata_architect_mobile_apps/poviders/proyek_provider.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
+import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -13,7 +17,28 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 11) {
+      return 'Pagi';
+    } else if (hour < 14) {
+      return 'Siang';
+    } else if (hour < 18) {
+      return 'Sore';
+    } else {
+      return 'Malam';
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -24,7 +49,9 @@ class _DashboardPageState extends State<DashboardPage> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: header(greeting: "Selamat Pagi, Kahfi", urlImage: ""),
+              child: header(
+                  greeting: "Selamat ${greeting()}, ${authProvider.user!.name}",
+                  urlImage: ""),
             ),
             const Divider(
               color: ListColor.gray100,
@@ -41,8 +68,19 @@ class _DashboardPageState extends State<DashboardPage> {
               color: ListColor.gray100,
               thickness: 5,
             ),
-            pengeluaranProyek(
-                lokasi: "Lokasi Proyek 1", nominal: "Rp. 1.300.000"),
+            Consumer<ListCostProyekProvider>(
+              builder: (context, state, _) {
+                if (state.state == ResulState.loading) {
+                  return CircularProgressIndicator();
+                } else if (state.state == ResulState.hasData) {
+                  return pengeluaranProyek(data: state.listCostProyek);
+                } else {
+                  return Text("data");
+                }
+              },
+            ),
+            // pengeluaranProyek(
+            //     lokasi: "Lokasi Proyek 1", nominal: "Rp. 1.300.000"),
             const SizedBox(
               height: 10,
             ),
@@ -148,7 +186,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget pengeluaranProyek({String? nominal, String? lokasi}) {
+  Widget pengeluaranProyek({List<ListCostProyek>? data}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       child: Column(
@@ -162,16 +200,17 @@ class _DashboardPageState extends State<DashboardPage> {
             height: 10,
           ),
           ListView.builder(
-            itemCount: 5,
+            itemCount: data!.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
+              final proyeks = data[index];
               return Column(
                 children: [
                   ListTile(
                     contentPadding: const EdgeInsets.all(0),
                     title: Text(
-                      "$nominal",
+                      'Rp. ${proyeks.totalPengeluaran!}',
                       style: headerFontMenu.copyWith(fontSize: 18),
                     ),
                     subtitle: Row(
@@ -184,7 +223,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           width: 3,
                         ),
                         Text(
-                          "$lokasi",
+                          proyeks.lokasiProyek!,
                           style: subHeaderFont.copyWith(fontSize: 16),
                         ),
                       ],

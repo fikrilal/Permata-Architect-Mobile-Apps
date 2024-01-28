@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permata_architect_mobile_apps/poviders/list_proyek.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
+import 'package:provider/provider.dart';
 
 import '../../../repository/res/color_libraries.dart';
 import '../../components/card/card_list_project.dart';
@@ -15,6 +17,12 @@ class ProjectList extends StatefulWidget {
 
 class _ProjectListState extends State<ProjectList> {
   final TextEditingController _controllerSearchName = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +51,33 @@ class _ProjectListState extends State<ProjectList> {
                   controller: _controllerSearchName,
                   keyboardType: TextInputType.name,
                   text: "Cari Proyek.."),
-              const CardListProject(
-                alamat: "Jl. Suparjan Mangun Wijaya",
-                lokasi: "Lokasi Proyek 1",
-                pemilik: "Ayub Bahrudin",
-                status: "On Progress",
-              )
+              Consumer<ListProyekProvider>(
+                builder: (context, state, _) {
+                  if (state.state == ResultListProyek.loading) {
+                    return CircularProgressIndicator();
+                  } else if (state.state == ResultListProyek.hasData) {
+                    return ListView.builder(
+                      itemCount: state.listProyek.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final datalist = state.listProyek[index];
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 10.h),
+                          child: CardListProject(
+                            alamat: "${datalist.keterangan}",
+                            lokasi: "${datalist.lokasiProyek}",
+                            pemilik: "${datalist.namaPemilik}",
+                            status: "${datalist.status}",
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return Text("data");
+                  }
+                },
+              ),
             ],
           ),
         ),
