@@ -18,6 +18,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,109 +29,127 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "PermataArchitect",
-                style: headerFontSignInUp.copyWith(fontSize: 30.0),
-              ),
-              Text(
-                "Selamat datang kembali! Masuk menggunakan akun yang terdaftar di Permata Architect",
-                style: subHeaderFont.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Email",
-                style: headerTextField.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              EmailPassField(
-                  text: "Email Kamu",
-                  svgIconPath: "assets/icons/icons_mail.svg",
-                  controller: _controllerEmail,
-                  iconColor: ListColor.gray500,
-                  isPasswordType: false),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Kata Sandi",
-                style: headerTextField.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              EmailPassField(
-                  text: "Kata Sandi Kamu",
-                  svgIconPath: "assets/icons/icons_password.svg",
-                  controller: _controllerPassword,
-                  iconColor: ListColor.gray500,
-                  isPasswordType: true),
-              const SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  "Lupa Kata Sandi?",
-                  style: textGreen.copyWith(fontSize: 18.0),
-                  textAlign: TextAlign.end,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "PermataArchitect",
+                  style: headerFontSignInUp.copyWith(fontSize: 30.0),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              primaryButton(
-                  text: "Masuk",
-                  onPressed: () async {
-                    String emailInput = _controllerEmail.text;
-                    String passwordInput = _controllerPassword.text;
-                    bool resultLogin = await authProvider.accountLogin(
-                        email: emailInput, password: passwordInput);
+                Text(
+                  "Selamat datang kembali! Masuk menggunakan akun yang terdaftar di Permata Architect",
+                  style: subHeaderFont.copyWith(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Email",
+                  style: headerTextField.copyWith(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                EmailPassField(
+                    text: "Email Kamu",
+                    svgIconPath: "assets/icons/icons_mail.svg",
+                    controller: _controllerEmail,
+                    iconColor: ListColor.gray500,
+                    isPasswordType: false),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Kata Sandi",
+                  style: headerTextField.copyWith(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                EmailPassField(
+                    text: "Kata Sandi Kamu",
+                    svgIconPath: "assets/icons/icons_password.svg",
+                    controller: _controllerPassword,
+                    iconColor: ListColor.gray500,
+                    isPasswordType: true),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "Lupa Kata Sandi?",
+                    style: textGreen.copyWith(fontSize: 18.0),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                isLoading == false
+                    ? primaryButton(
+                        text: "Masuk",
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            String emailInput = _controllerEmail.text;
+                            String passwordInput = _controllerPassword.text;
+                            bool resultLogin = await authProvider.accountLogin(
+                                email: emailInput, password: passwordInput);
 
-                    if (resultLogin) {
-                      // ignore: use_build_context_synchronously
-                      context.go("/DashboardPage");
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                          "Gagal Login",
-                          style: regularFont.copyWith(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                        backgroundColor: Colors.redAccent,
-                      ));
-                    }
-                  }),
-              Expanded(child: Container()),
-              GestureDetector(
-                onTap: () {
-                  context.go("/RegisterPage");
-                },
-                child: SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Belum Punya Akun?",
-                          style: regularFont.copyWith(color: ListColor.gray500),
-                        ),
-                        Text(
-                          " Daftar",
-                          style: textGreen.copyWith(fontSize: 18),
-                        )
-                      ],
-                    )),
-              )
-            ],
+                            if (resultLogin) {
+                              // ignore: use_build_context_synchronously
+                              context.go("/DashboardPage");
+                            } else {
+                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                  authProvider.message,
+                                  style:
+                                      regularFont.copyWith(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                                backgroundColor: Colors.redAccent,
+                              ));
+                            }
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        })
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: () {
+                    context.go("/RegisterPage");
+                  },
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Belum Punya Akun?",
+                            style:
+                                regularFont.copyWith(color: ListColor.gray500),
+                          ),
+                          Text(
+                            " Daftar",
+                            style: textGreen.copyWith(fontSize: 18),
+                          )
+                        ],
+                      )),
+                )
+              ],
+            ),
           ),
         ),
       ),

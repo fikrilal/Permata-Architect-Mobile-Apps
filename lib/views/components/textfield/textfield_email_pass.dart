@@ -32,6 +32,12 @@ class _EmailPassFieldState extends State<EmailPassField> {
       enableSuggestions: !widget.isPasswordType,
       autocorrect: !widget.isPasswordType,
       cursorColor: ListColor.primary,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
       style: const TextStyle(
         fontFamily: 'Satoshi',
         fontWeight: FontWeight.w500,
@@ -51,6 +57,20 @@ class _EmailPassFieldState extends State<EmailPassField> {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
             color: ListColor.primary,
+            width: 1,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+            color: ListColor.primary,
+            width: 1,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+            color: Colors.redAccent,
             width: 1,
           ),
         ),

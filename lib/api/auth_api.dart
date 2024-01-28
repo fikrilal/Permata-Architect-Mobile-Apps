@@ -13,13 +13,16 @@ class AuthService {
     var headers = {'Content-Type': 'application/json'};
     var response = await http.post(url, headers: headers, body: body);
 
+    var infoData = jsonDecode(response.body)['meta'];
+    UserInfo message = UserInfo.fromJson(infoData);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
       user.token = "Bearer ${data['access_token']}";
       return user;
     } else {
-      throw Exception('Gagal Register');
+      throw Exception(message.message);
     }
   }
 
@@ -29,13 +32,16 @@ class AuthService {
     var headers = {'Content-Type': 'application/json'};
     var response = await http.post(url, headers: headers, body: body);
 
+    var infoData = jsonDecode(response.body)['meta'];
+    UserInfo message = UserInfo.fromJson(infoData);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
       user.token = "Bearer ${data['access_token']}";
       return user;
     } else {
-      throw Exception('Gagal Login');
+      throw Exception(message.message);
     }
   }
 }
