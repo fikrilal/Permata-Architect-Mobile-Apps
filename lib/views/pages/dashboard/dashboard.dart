@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +8,7 @@ import 'package:permata_architect_mobile_apps/poviders/auth_provider.dart';
 import 'package:permata_architect_mobile_apps/poviders/proyek_provider.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
+import 'package:permata_architect_mobile_apps/views/components/text/format_rupiah.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -71,11 +74,15 @@ class _DashboardPageState extends State<DashboardPage> {
             Consumer<ListCostProyekProvider>(
               builder: (context, state, _) {
                 if (state.state == ResulState.loading) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (state.state == ResulState.hasData) {
                   return pengeluaranProyek(data: state.listCostProyek);
                 } else {
-                  return Text("data");
+                  if (state.message == '404') {
+                    return const Text('Terjadi masalah jaringan');
+                  } else {
+                    return Text(state.message);
+                  }
                 }
               },
             ),
@@ -210,7 +217,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   ListTile(
                     contentPadding: const EdgeInsets.all(0),
                     title: Text(
-                      'Rp. ${proyeks.totalPengeluaran!}',
+                      formatRupiah(
+                          int.parse(proyeks.totalPengeluaran.toString())),
                       style: headerFontMenu.copyWith(fontSize: 18),
                     ),
                     subtitle: Row(

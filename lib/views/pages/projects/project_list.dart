@@ -54,7 +54,7 @@ class _ProjectListState extends State<ProjectList> {
               Consumer<ListProyekProvider>(
                 builder: (context, state, _) {
                   if (state.state == ResultListProyek.loading) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else if (state.state == ResultListProyek.hasData) {
                     return ListView.builder(
                       itemCount: state.listProyek.length,
@@ -74,7 +74,11 @@ class _ProjectListState extends State<ProjectList> {
                       },
                     );
                   } else {
-                    return Text("data");
+                    if (state.message == '404') {
+                      return const Text('Terjadi masalah jaringan');
+                    } else {
+                      return Text(state.message);
+                    }
                   }
                 },
               ),
