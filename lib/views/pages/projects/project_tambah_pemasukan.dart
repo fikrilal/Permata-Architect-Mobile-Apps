@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../../../models/image/image_helper.dart';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
 import '../../components/textfield/textfield_primary.dart';
@@ -22,6 +23,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
   final _formKey = GlobalKey<FormState>();
 
   File? _image;
+  ImageHelper _imageHelper = ImageHelper();
 
   void _deleteImage() {
     setState(() {
@@ -30,39 +32,20 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: source);
+    File? pickedImage = await _imageHelper.pickImage(source);
 
-      if (pickedFile != null) {
-        setState(() {
-          _image = File(pickedFile.path);
-        });
-        print(
-            "Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
-      } else {
-        print("Tidak ada gambar yang dipilih");
-      }
-    } catch (e) {
-      print("Terjadi kesalahan saat memilih gambar: $e");
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+      print("Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
+    } else {
+      print("Tidak ada gambar yang dipilih");
     }
   }
 
-  Future<void> uploadImage(File imageFile) async {
-    var uri = Uri.parse('https://api.imgbb.com/1/upload');
-    var request = http.MultipartRequest('POST', uri)
-      ..fields['key'] = '134113064fd64005338a64d3d654c6f9'
-      ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      var responseData = await response.stream.toBytes();
-      var responseString = String.fromCharCodes(responseData);
-      print('Upload berhasil: $responseString');
-    } else {
-      print('Upload gagal');
-    }
+  Future<void> _uploadImage(File imageFile) async {
+    await _imageHelper.uploadImage(imageFile);
   }
 
   @override
@@ -141,7 +124,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                     text: "Simpan",
                     onPressed: () {
                       if (_formKey.currentState!.validate() && _image != null) {
-                        uploadImage(_image!);
+                        _uploadImage(_image!);
                       } else {
                         print("Lengkapi data dan pilih gambar dahulu");
                       }
