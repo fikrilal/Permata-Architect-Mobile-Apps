@@ -23,6 +23,28 @@ class TextDescriptionMain extends StatelessWidget {
   }
 }
 
+class TextDescriptionMainOver extends StatelessWidget {
+  final String? text;
+
+  TextDescriptionMainOver(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "${text}",
+      style:  TextStyle(
+          fontFamily: 'Satoshi',
+          fontSize: 18.sp,
+          color: ListColor.gray700,
+          fontWeight: FontWeight.w500,
+          height: 0,
+          overflow: TextOverflow.ellipsis
+      ),
+      maxLines: 1,
+    );
+  }
+}
+
 class TextDescriptionSmall extends StatelessWidget {
   final String? text;
 

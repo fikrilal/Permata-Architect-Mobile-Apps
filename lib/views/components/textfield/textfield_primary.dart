@@ -262,20 +262,26 @@ Widget uploadImages(
                     ),
                   ),
                   SizedBox(width: 10.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        fileName,
-                        style: subHeaderFont.copyWith(fontSize: 18),
-                      ),
-                      Text(
-                        fileSize,
-                        style: subHeaderFont.copyWith(fontSize: 15),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          fileName,
+                          style: regularFont.copyWith(fontSize: 16.sp),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          fileSize,
+                          style: subHeaderFont.copyWith(fontSize: 13.sp),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
+                  SizedBox(width: 16.w),
                   InkWell(
                     onTap: onDelete,
                     child: Container(

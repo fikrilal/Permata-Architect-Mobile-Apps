@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 
+import '../../../models/image/image_helper.dart';
 import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
-
+import 'dart:io';
 import '../../components/appbar/custom_appbar.dart';
 
 import '../../components/button/button_primary.dart';
@@ -42,6 +44,32 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
   }
 
   final _formKey = GlobalKey<FormState>();
+
+  File? _image;
+  ImageHelper _imageHelper = ImageHelper();
+
+  void _deleteImage() {
+    setState(() {
+      _image = null;
+    });
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    File? pickedImage = await _imageHelper.pickImage(source);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+      print("Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
+    } else {
+      print("Tidak ada gambar yang dipilih");
+    }
+  }
+
+  Future<void> _uploadImage(File imageFile) async {
+    await _imageHelper.uploadImage(imageFile);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +117,39 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                     uploadImages(
                       header: "Foto",
                       text: "Upload Foto Progress",
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Pilih Sumber Gambar"),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    leading: Icon(Icons.photo_library),
+                                    title: Text("Galeri"),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      _pickImage(ImageSource.gallery);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.camera_alt),
+                                    title: Text("Kamera"),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      _pickImage(ImageSource.camera);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      imageFile: _image,
+                      onDelete: _deleteImage,
                     ),
                     SizedBox(height: 24.h),
                     primaryButton(
