@@ -14,9 +14,24 @@ class GetListProyekService {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       print("Data List Proyek : ${data}");
-      List<ListProyek> listcost = (data['data'] as List)
-          .map((item) => ListProyek.fromJson(item))
-          .toList();
+      List<ListProyek> listcost =
+          (data as List).map((item) => ListProyek.fromJson(item)).toList();
+      return listcost;
+    } else {
+      throw Exception('Gagal Load Data');
+    }
+  }
+
+  Future<List<ListProyek>> carilistproyek({String? query}) async {
+    Uri url = Uri.parse('$baseUrl/proyek?q=$query');
+    var headers = {'Content-Type': 'application/json'};
+    var response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['data'];
+      print("Data List Proyek : $data");
+      List<ListProyek> listcost =
+          (data as List).map((item) => ListProyek.fromJson(item)).toList();
       return listcost;
     } else {
       throw Exception('Gagal Load Data');

@@ -1,13 +1,15 @@
-import 'dart:ffi';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_cost_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/poviders/auth_provider.dart';
+import 'package:permata_architect_mobile_apps/poviders/list_progress_all.dart';
 import 'package:permata_architect_mobile_apps/poviders/proyek_provider.dart';
+import 'package:permata_architect_mobile_apps/repository/api/api_config.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
+import 'package:permata_architect_mobile_apps/views/components/text/format_date.dart';
 import 'package:permata_architect_mobile_apps/views/components/text/format_rupiah.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +45,6 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -51,7 +52,7 @@ class _DashboardPageState extends State<DashboardPage> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
               child: header(
                   greeting: "Selamat ${greeting()}, ${authProvider.user!.name}",
                   urlImage: ""),
@@ -60,12 +61,9 @@ class _DashboardPageState extends State<DashboardPage> {
               color: ListColor.gray100,
               thickness: 5,
             ),
-            progressProyek(
-                judul: "Urug Lahan",
-                lokasi: "Lokasi Proyek 1",
-                tanggal: "12 Januari"),
-            const SizedBox(
-              height: 10,
+            progressProyek(),
+            SizedBox(
+              height: 10.h,
             ),
             const Divider(
               color: ListColor.gray100,
@@ -88,8 +86,8 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             // pengeluaranProyek(
             //     lokasi: "Lokasi Proyek 1", nominal: "Rp. 1.300.000"),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 10.h,
             ),
           ],
         ),
@@ -110,78 +108,104 @@ class _DashboardPageState extends State<DashboardPage> {
       contentPadding: const EdgeInsets.all(0),
       title: Text(
         "$greeting",
-        style: headerFontMenu.copyWith(fontSize: 20),
+        style: headerFontMenu.copyWith(fontSize: 20.sp),
       ),
       subtitle: Text(
         "Ada laporan hari ini?",
-        style: subHeaderFont.copyWith(fontSize: 16),
+        style: subHeaderFont.copyWith(fontSize: 16.sp),
       ),
     );
   }
 
-  Widget progressProyek({String? judul, String? lokasi, String? tanggal}) {
+  Widget progressProyek() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Progress Proyek",
-            style: headerFontMenu.copyWith(fontSize: 20),
+            style: headerFontMenu.copyWith(fontSize: 20.sp),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.h,
           ),
-          ListView.builder(
-            itemCount: 5,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  ListTile(
-                    leading: Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          image: const DecorationImage(
-                              image:
-                                  AssetImage("assets/images/construction.png")),
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    contentPadding: const EdgeInsets.all(0),
-                    title: Text(
-                      "$judul",
-                      style: headerFontMenu.copyWith(fontSize: 18),
-                    ),
-                    subtitle: Row(
+          Consumer<ListProgressAllProvider>(
+            builder: (context, state, _) {
+              if (state.state == ResultListProgress.loading) {
+                return const CircularProgressIndicator();
+              } else if (state.state == ResultListProgress.hasData) {
+                return ListView.builder(
+                  itemCount: state.listprogress.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final data = state.listprogress[index];
+                    return Column(
                       children: [
-                        const Icon(
-                          Hicons.location_light_outline,
-                          size: 20,
+                        ListTile(
+                          leading: Container(
+                            width: 56.w,
+                            height: 56.h,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5.r),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "${ApiConfig.baseUrlImage}${data.picUrl}",
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                        "assets/images/construction.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.all(0),
+                          title: Text(
+                            data.progress!,
+                            style: headerFontMenu.copyWith(fontSize: 18.sp),
+                          ),
+                          subtitle: Row(
+                            children: [
+                              const Icon(
+                                Hicons.location_light_outline,
+                                size: 20,
+                              ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  data.detailLokasi!,
+                                  style:
+                                      subHeaderFont.copyWith(fontSize: 16.sp),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Text(
+                            dateMonth(date: data.tanggal),
+                            style: regularFont.copyWith(fontSize: 14.sp),
+                          ),
                         ),
-                        const SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          "$lokasi",
-                          style: subHeaderFont.copyWith(fontSize: 16),
-                        ),
+                        const Divider(),
                       ],
-                    ),
-                    trailing: Text(
-                      "$tanggal",
-                      style: regularFont.copyWith(fontSize: 14),
-                    ),
-                  ),
-                  const Divider(),
-                ],
-              );
+                    );
+                  },
+                );
+              } else {
+                if (state.message == '404') {
+                  return const Text('Terjadi masalah jaringan');
+                } else {
+                  return Text(state.message);
+                }
+              }
             },
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.h,
           ),
           blueText(
             onpressed: () {
@@ -195,16 +219,16 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget pengeluaranProyek({List<ListCostProyek>? data}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Total Pengeluaran Proyek",
-            style: headerFontMenu.copyWith(fontSize: 20),
+            style: headerFontMenu.copyWith(fontSize: 20.sp),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.h,
           ),
           ListView.builder(
             itemCount: data!.length,
@@ -227,12 +251,12 @@ class _DashboardPageState extends State<DashboardPage> {
                           Hicons.location_light_outline,
                           size: 20,
                         ),
-                        const SizedBox(
-                          width: 3,
+                        SizedBox(
+                          width: 3.w,
                         ),
                         Text(
                           proyeks.lokasiProyek!,
-                          style: subHeaderFont.copyWith(fontSize: 16),
+                          style: subHeaderFont.copyWith(fontSize: 16.sp),
                         ),
                       ],
                     ),
@@ -242,8 +266,8 @@ class _DashboardPageState extends State<DashboardPage> {
               );
             },
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.h,
           ),
           blueText(
             onpressed: () {
@@ -263,7 +287,7 @@ class _DashboardPageState extends State<DashboardPage> {
         children: [
           Text(
             "Tampilkan Semua",
-            style: textFontBlue.copyWith(fontSize: 16),
+            style: textFontBlue.copyWith(fontSize: 16.sp),
           ),
           const SizedBox(
             width: 4,

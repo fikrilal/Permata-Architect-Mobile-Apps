@@ -19,7 +19,7 @@ class NavigationController {
   NavigationController._();
 
   static String initR =
-      '/AbsensiPage'; //Halaman pertama ketika aplikasi dijalankan
+      '/SplashPage'; //Halaman pertama ketika aplikasi dijalankan
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _rootNavigatorDashboard =
