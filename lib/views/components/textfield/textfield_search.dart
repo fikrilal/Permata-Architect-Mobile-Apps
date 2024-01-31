@@ -7,13 +7,17 @@ class TextFieldSearchWidget extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? text;
+  final Function(String)? onSubmiited;
+  final Function(String)? onChanged;
 
-  const TextFieldSearchWidget({
-    Key? key,
-    this.controller,
-    this.keyboardType,
-    this.text,
-  }) : super(key: key);
+  const TextFieldSearchWidget(
+      {Key? key,
+      this.controller,
+      this.keyboardType,
+      this.text,
+      this.onSubmiited,
+      this.onChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,8 @@ class TextFieldSearchWidget extends StatelessWidget {
         controller: controller,
         enableSuggestions: true,
         autocorrect: true,
+        onFieldSubmitted: onSubmiited,
+        onChanged: onChanged,
         cursorColor: ListColor.primary,
         style: const TextStyle(
           fontFamily: 'Satoshi',
