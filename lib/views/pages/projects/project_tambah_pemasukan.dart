@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import '../../../models/image/image_helper.dart';
+import '../../../repository/api/api_tambah_pemasukan.dart';
+import '../../../repository/res/color_libraries.dart';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
+import '../../components/snackbar/snackbar_custom.dart';
+import '../../components/text/description.dart';
 import '../../components/textfield/textfield_primary.dart';
 
 class ProjectTambahPemasukan extends StatefulWidget {
@@ -21,6 +27,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
   final TextEditingController _controllerNominal = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  final ApiTambahPemasukan _apiTambahPemasukan = ApiTambahPemasukan();
 
   File? _image;
   ImageHelper _imageHelper = ImageHelper();
@@ -38,14 +45,36 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
       setState(() {
         _image = pickedImage;
       });
-      print("Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
+      print(
+          "Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
     } else {
       print("Tidak ada gambar yang dipilih");
     }
   }
 
-  Future<void> _uploadImage(File imageFile) async {
-    await _imageHelper.uploadImage(imageFile);
+  Future<void> _addPemasukan() async {
+    BuildContext currentContext = context;
+    try {
+      await _apiTambahPemasukan.addPemasukan(
+        jumlahPemasukan: int.parse(_controllerNominal.text),
+        keterangan: _controllerPemasukan.text,
+        sumberDana: _controllerSumberDana.text,
+        id: 1,
+        id_proyek: 11,
+        image: _image!,
+      );
+      print("Pemasukan berhasil ditambahkan");
+      CustomSnackbar.showSuccessSnackbar(context, 'Data berhasil ditambahkan!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProjectDetails(),
+        ),
+      );
+    } catch (error) {
+      print("Error: $error");
+      CustomSnackbar.showFailedSnackbar(context, 'Gagal menambahkan data');
+    }
   }
 
   @override
@@ -124,7 +153,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                     text: "Simpan",
                     onPressed: () {
                       if (_formKey.currentState!.validate() && _image != null) {
-                        _uploadImage(_image!);
+                        _addPemasukan();
                       } else {
                         print("Lengkapi data dan pilih gambar dahulu");
                       }
