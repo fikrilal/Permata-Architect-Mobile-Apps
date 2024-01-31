@@ -12,13 +12,54 @@ class TextDescriptionMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "${text}",
-      style:  TextStyle(
-        fontFamily: 'Satoshi',
-        fontSize: 18.sp,
-        color: ListColor.gray700,
-        fontWeight: FontWeight.w500,
-        height: 0
-      ),
+      style: TextStyle(
+          fontFamily: 'Satoshi',
+          fontSize: 18.sp,
+          color: ListColor.gray700,
+          fontWeight: FontWeight.w500,
+          height: 0),
+    );
+  }
+}
+
+class TextDescriptionPrimary extends StatelessWidget {
+  final String? text;
+
+  TextDescriptionPrimary(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "${text}",
+      style: TextStyle(
+          fontFamily: 'Satoshi',
+          fontSize: 18.sp,
+          color: ListColor.primary,
+          fontWeight: FontWeight.w500,
+          height: 0,
+          overflow: TextOverflow.ellipsis),
+      maxLines: 1,
+    );
+  }
+}
+
+class TextDescriptionWarning extends StatelessWidget {
+  final String? text;
+
+  TextDescriptionWarning(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "${text}",
+      style: TextStyle(
+          fontFamily: 'Satoshi',
+          fontSize: 18.sp,
+          color: ListColor.red,
+          fontWeight: FontWeight.w500,
+          height: 0,
+          overflow: TextOverflow.ellipsis),
+      maxLines: 1,
     );
   }
 }
@@ -32,14 +73,13 @@ class TextDescriptionMainOver extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "${text}",
-      style:  TextStyle(
+      style: TextStyle(
           fontFamily: 'Satoshi',
           fontSize: 18.sp,
           color: ListColor.gray700,
           fontWeight: FontWeight.w500,
           height: 0,
-          overflow: TextOverflow.ellipsis
-      ),
+          overflow: TextOverflow.ellipsis),
       maxLines: 1,
     );
   }
@@ -54,13 +94,12 @@ class TextDescriptionSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "${text}",
-      style:  TextStyle(
+      style: TextStyle(
           fontFamily: 'Satoshi',
           fontSize: 16.sp,
           color: ListColor.gray400,
           fontWeight: FontWeight.w500,
-          height: 0
-      ),
+          height: 0),
     );
   }
 }
