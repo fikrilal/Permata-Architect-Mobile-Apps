@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permata_architect_mobile_apps/repository/api/api_tambah_pengeluaran.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
+import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import '../../../models/image/image_helper.dart';
 import '../../components/appbar/custom_appbar.dart';
 import 'dart:io';
+
+import '../../components/snackbar/snackbar_custom.dart';
 
 class ProjectTambahPengeluaran extends StatefulWidget {
   const ProjectTambahPengeluaran({super.key});
@@ -15,13 +19,15 @@ class ProjectTambahPengeluaran extends StatefulWidget {
 }
 
 class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
-  final TextEditingController _controllerBarang = TextEditingController();
-  final TextEditingController _controllerQuantity = TextEditingController();
-  final TextEditingController _controllerHargaSatuan = TextEditingController();
-  final TextEditingController _controllerVendor = TextEditingController();
+  final TextEditingController _controllerNamaBarang = TextEditingController();
+  final TextEditingController _controllerKeterangan = TextEditingController();
   final TextEditingController _controllerSumberDana = TextEditingController();
+  final TextEditingController _controllerSatuan = TextEditingController();
+  final TextEditingController _controllerQuantity = TextEditingController();
+  final TextEditingController _controllerVendor = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  final ApiTambahPengeluaran _apiTambahPengeluaran = ApiTambahPengeluaran();
 
   File? _image;
   ImageHelper _imageHelper = ImageHelper();
@@ -46,6 +52,35 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
     }
   }
 
+  Future<void> _addPengeluaran() async {
+    BuildContext currentContext = context;
+    try {
+      await _apiTambahPengeluaran.addPengeluaran(
+        judulPengeluaran: _controllerNamaBarang.text,
+        keterangan: _controllerKeterangan.text,
+        sumberDana: _controllerSumberDana.text,
+        id: 1,
+        idProyek: 11,
+        satuan: _controllerSatuan.text,
+        quantity: int.parse(_controllerQuantity.text),
+        hargaSatuan: int.parse(_controllerSatuan.text),
+        vendor: _controllerVendor.text,
+        image: _image!,
+      );
+      print("Pemasukan berhasil ditambahkan");
+      CustomSnackbar.showSuccessSnackbar(context, 'Data berhasil ditambahkan!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProjectDetails(),
+        ),
+      );
+    } catch (error) {
+      print("Error: $error");
+      CustomSnackbar.showFailedSnackbar(context, 'Gagal menambahkan data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -65,9 +100,14 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 textFieldForm(
-                    controller: _controllerBarang,
+                    controller: _controllerNamaBarang,
                     header: "Nama Barang",
                     text: "Contoh: Semen 50KG",
+                    keyboardType: TextInputType.text),
+                textFieldForm(
+                    controller: _controllerKeterangan,
+                    header: "Keterangan",
+                    text: "Keterangan",
                     keyboardType: TextInputType.text),
                 textFieldForm(
                     controller: _controllerQuantity,
@@ -75,7 +115,7 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
                     text: "Contoh: 5",
                     keyboardType: TextInputType.number),
                 textFieldForm(
-                    controller: _controllerHargaSatuan,
+                    controller: _controllerSatuan,
                     header: "Harga Satuan",
                     text: "Rp.",
                     keyboardType: TextInputType.number),
@@ -133,7 +173,7 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
                     text: "Simpan",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print("Dah Lengkap");
+                        _addPengeluaran();
                       } else {
                         print("Lengkapi dahulu");
                       }
