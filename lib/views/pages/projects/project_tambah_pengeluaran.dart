@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/repository/api/api_tambah_pengeluaran.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import '../../../models/image/image_helper.dart';
-import '../../../models/proyek_model/list_proyek_model.dart';
 import '../../components/appbar/custom_appbar.dart';
 import 'dart:io';
 
@@ -55,13 +55,14 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
   }
 
   Future<void> _addPengeluaran() async {
+    BuildContext currentContext = context;
     try {
       await _apiTambahPengeluaran.addPengeluaran(
         judulPengeluaran: _controllerNamaBarang.text,
         keterangan: _controllerKeterangan.text,
         sumberDana: _controllerSumberDana.text,
         id: 1,
-        idProyek: int.parse(widget.listProyek.idProyek.toString()),
+        idProyek: 11,
         satuan: _controllerSatuan.text,
         quantity: int.parse(_controllerQuantity.text),
         hargaSatuan: int.parse(_controllerSatuan.text),
@@ -73,7 +74,9 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProjectDetails(listProyek: widget.listProyek),
+          builder: (context) => ProjectDetails(
+            listProyek: widget.listProyek,
+          ),
         ),
       );
     } catch (error) {

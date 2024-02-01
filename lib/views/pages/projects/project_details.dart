@@ -13,14 +13,12 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_tamba
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_tambah_progress.dart';
 import 'package:provider/provider.dart';
 
-import '../../../repository/api/api_kasbon.dart';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/card/card_expandable.dart';
 import '../../components/card/card_list.dart';
 
 class ProjectDetails extends StatefulWidget {
   final ListProyek listProyek;
-
   const ProjectDetails({super.key, required this.listProyek});
 
   @override
@@ -30,6 +28,8 @@ class ProjectDetails extends StatefulWidget {
 class _ProjectDetailsState extends State<ProjectDetails> {
   @override
   void initState() {
+    // TODO: implement initState
+
     super.initState();
   }
 
@@ -61,7 +61,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProjectAbsensi()),
+                        builder: (context) => ProjectAbsensi(
+                              listProyek: widget.listProyek,
+                            )),
                   );
                 },
               ),
@@ -86,7 +88,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProjectTambahPengeluaran(
-                            listProyek: widget.listProyek)),
+                              listProyek: widget.listProyek,
+                            )),
                   );
                 },
               ),
@@ -97,8 +100,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProjectKasbon(
-                            listProyek: widget.listProyek)),
+                        builder: (context) => const ProjectKasbon()),
                   );
                 },
               ),
