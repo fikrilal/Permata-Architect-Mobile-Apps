@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
 import '../../components/button/button_primary.dart';
+import '../../components/snackbar/snackbar_custom.dart';
 import '../../components/textfield/textfield_email_pass.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -118,16 +119,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               context.go("/LoginPage");
                             } else {
                               // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                  "${authProvider.message.toString()}",
-                                  style:
-                                      regularFont.copyWith(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                                backgroundColor: Colors.redAccent,
-                              ));
+                              CustomSnackbar.showFailedSnackbar(
+                                  context, authProvider.message);
                             }
                             setState(() {
                               isLoading = false;

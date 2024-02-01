@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:permata_architect_mobile_apps/api/api_list_progress.dart';
 import 'package:permata_architect_mobile_apps/poviders/list_proyek.dart';
 import 'package:permata_architect_mobile_apps/poviders/search_list_proyek.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
+import 'package:permata_architect_mobile_apps/shared/shared_prefs.dart';
 import 'package:provider/provider.dart';
 
 import '../../../repository/res/color_libraries.dart';
 import '../../components/card/card_list_project.dart';
 import '../../components/textfield/textfield_search.dart';
+import 'project_details.dart';
 
 class ProjectList extends StatefulWidget {
   const ProjectList({super.key});
@@ -33,6 +34,11 @@ class _ProjectListState extends State<ProjectList> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // print("idProyek = ${getIdProyek().toString()}");
+  }
+
+  Future<String> getIdProyek() async {
+    return await getidproyek('idProyek');
   }
 
   @override
@@ -101,11 +107,25 @@ class _ProjectListState extends State<ProjectList> {
               final datalist = state.searchResults![index];
               return Padding(
                 padding: EdgeInsets.only(bottom: 10.h),
-                child: CardListProject(
-                  alamat: "${datalist.lokasiProyek}",
-                  lokasi: "${datalist.keterangan}",
-                  pemilik: "${datalist.namaPemilik}",
-                  status: "${datalist.status}",
+                child: GestureDetector(
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProjectDetails(
+                          listProyek: datalist,
+                        ),
+                      ),
+                    );
+                    await saveidproyek(
+                        'idProyek', datalist.idProyek.toString());
+                  },
+                  child: CardListProject(
+                    alamat: "${datalist.lokasiProyek}",
+                    lokasi: "${datalist.keterangan}",
+                    pemilik: "${datalist.namaPemilik}",
+                    status: "${datalist.status}",
+                  ),
                 ),
               );
             },
@@ -135,11 +155,25 @@ class _ProjectListState extends State<ProjectList> {
               final datalist = state.listProyek[index];
               return Padding(
                 padding: EdgeInsets.only(bottom: 10.h),
-                child: CardListProject(
-                  alamat: "${datalist.lokasiProyek}",
-                  lokasi: "${datalist.keterangan}",
-                  pemilik: "${datalist.namaPemilik}",
-                  status: "${datalist.status}",
+                child: GestureDetector(
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProjectDetails(
+                          listProyek: datalist,
+                        ),
+                      ),
+                    );
+                    await saveidproyek(
+                        'idProyek', datalist.idProyek.toString());
+                  },
+                  child: CardListProject(
+                    alamat: "${datalist.lokasiProyek}",
+                    lokasi: "${datalist.keterangan}",
+                    pemilik: "${datalist.namaPemilik}",
+                    status: "${datalist.status}",
+                  ),
                 ),
               );
             },

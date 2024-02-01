@@ -12,7 +12,7 @@ class ComponentTextAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "${text}",
-      style:  TextStyle(
+      style: TextStyle(
         fontFamily: 'Satoshi',
         fontSize: 16.sp,
         color: ListColor.gray700,
@@ -31,9 +31,9 @@ class TextPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "${text}",
-      style:  TextStyle(
+      style: TextStyle(
         fontFamily: 'Satoshi',
-        fontSize: 22.sp,
+        fontSize: 18.sp,
         color: ListColor.gray700,
         fontWeight: FontWeight.w900,
       ),

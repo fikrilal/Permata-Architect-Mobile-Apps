@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../../repository/res/color_libraries.dart';
 import '../text/description.dart';
 
-
 class CustomSnackbar {
   static void showSuccessSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -44,6 +43,7 @@ class CustomSnackbar {
         elevation: 0,
         content: Container(
           padding: EdgeInsets.all(16.w),
+          margin: EdgeInsets.only(bottom: 40.h),
           decoration: ShapeDecoration(
             color: const Color(0x3DEB5757),
             shape: RoundedRectangleBorder(
@@ -59,7 +59,7 @@ class CustomSnackbar {
                 color: ListColor.red,
               ),
               SizedBox(width: 10.w),
-              TextDescriptionWarning('Gagal Menambahkan Data'),
+              TextDescriptionWarning(error),
             ],
           ),
         ),

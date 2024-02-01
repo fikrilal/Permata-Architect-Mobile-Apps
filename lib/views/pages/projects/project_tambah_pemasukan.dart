@@ -4,8 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
+import 'package:provider/provider.dart';
 import '../../../models/image/image_helper.dart';
+import '../../../poviders/auth_provider.dart';
 import '../../../repository/api/api_tambah_pemasukan.dart';
 import '../../../repository/res/color_libraries.dart';
 import '../../components/appbar/custom_appbar.dart';
@@ -15,7 +18,8 @@ import '../../components/text/description.dart';
 import '../../components/textfield/textfield_primary.dart';
 
 class ProjectTambahPemasukan extends StatefulWidget {
-  const ProjectTambahPemasukan({super.key});
+  final ListProyek listProyek;
+  const ProjectTambahPemasukan({super.key, required this.listProyek});
 
   @override
   State<ProjectTambahPemasukan> createState() => _ProjectTambahPemasukanState();
@@ -52,23 +56,25 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
     }
   }
 
-  Future<void> _addPemasukan() async {
+  Future<void> _addPemasukan({int? user}) async {
     BuildContext currentContext = context;
     try {
       await _apiTambahPemasukan.addPemasukan(
         jumlahPemasukan: int.parse(_controllerNominal.text),
         keterangan: _controllerPemasukan.text,
         sumberDana: _controllerSumberDana.text,
-        id: 1,
-        id_proyek: 11,
+        id: user!,
+        id_proyek: int.parse(widget.listProyek.idProyek.toString()),
         image: _image!,
       );
       print("Pemasukan berhasil ditambahkan");
       CustomSnackbar.showSuccessSnackbar(context, 'Data berhasil ditambahkan!');
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ProjectDetails(),
+          builder: (context) => ProjectDetails(
+            listProyek: widget.listProyek,
+          ),
         ),
       );
     } catch (error) {
@@ -79,6 +85,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: CustomAppBar(
         title: "Tambah Pemasukan",
@@ -153,7 +160,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                     text: "Simpan",
                     onPressed: () {
                       if (_formKey.currentState!.validate() && _image != null) {
-                        _addPemasukan();
+                        _addPemasukan(user: authProvider.user!.id);
                       } else {
                         print("Lengkapi data dan pilih gambar dahulu");
                       }

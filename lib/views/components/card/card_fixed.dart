@@ -26,7 +26,7 @@ class FixedCard extends StatelessWidget {
         children: [
           TextDescriptionSmall("Total Pemasukan"),
           SizedBox(height: 16),
-          TextPoint("Rp 15.000.000"),
+          TextPoint(amount),
         ],
       ),
     );

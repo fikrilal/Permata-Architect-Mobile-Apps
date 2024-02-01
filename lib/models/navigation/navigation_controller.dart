@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/views/pages/dashboard/dashboard.dart';
 import 'package:permata_architect_mobile_apps/views/pages/intro/splash_screen_page.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_absensi.dart';
@@ -55,6 +56,8 @@ class NavigationController {
         builder: (context, state) {
           return ProjectTambahPemasukan(
             key: state.pageKey,
+            listProyek:
+                ModalRoute.of(context)?.settings.arguments as ListProyek,
           );
         },
       ),
@@ -82,6 +85,8 @@ class NavigationController {
         builder: (context, state) {
           return ProjectDetails(
             key: state.pageKey,
+            listProyek:
+                ModalRoute.of(context)?.settings.arguments as ListProyek,
           );
         },
       ),

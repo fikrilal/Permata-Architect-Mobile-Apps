@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
+import 'package:permata_architect_mobile_apps/views/components/snackbar/snackbar_custom.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_email_pass.dart';
 import 'package:provider/provider.dart';
 
@@ -107,16 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                               context.go("/DashboardPage");
                             } else {
                               // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                  authProvider.message,
-                                  style:
-                                      regularFont.copyWith(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                                backgroundColor: Colors.redAccent,
-                              ));
+                              CustomSnackbar.showFailedSnackbar(
+                                  context, authProvider.message);
                             }
                             setState(() {
                               isLoading = false;
