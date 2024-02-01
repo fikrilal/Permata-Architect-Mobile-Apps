@@ -61,7 +61,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProjectAbsensi()),
+                        builder: (context) => ProjectAbsensi(
+                              listProyek: widget.listProyek,
+                            )),
                   );
                 },
               ),
@@ -85,7 +87,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProjectTambahPengeluaran()),
+                        builder: (context) => ProjectTambahPengeluaran(
+                              listProyek: widget.listProyek,
+                            )),
                   );
                 },
               ),

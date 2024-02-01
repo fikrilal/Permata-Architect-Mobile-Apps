@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/repository/api/api_tambah_pengeluaran.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
@@ -11,7 +12,8 @@ import 'dart:io';
 import '../../components/snackbar/snackbar_custom.dart';
 
 class ProjectTambahPengeluaran extends StatefulWidget {
-  const ProjectTambahPengeluaran({super.key});
+  final ListProyek listProyek;
+  const ProjectTambahPengeluaran({super.key, required this.listProyek});
 
   @override
   State<ProjectTambahPengeluaran> createState() =>
@@ -72,7 +74,9 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProjectDetails(),
+          builder: (context) => ProjectDetails(
+            listProyek: widget.listProyek,
+          ),
         ),
       );
     } catch (error) {
