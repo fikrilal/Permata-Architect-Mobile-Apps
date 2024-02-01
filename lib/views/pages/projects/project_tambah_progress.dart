@@ -2,18 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permata_architect_mobile_apps/api/api_add_progress.dart';
+import 'package:permata_architect_mobile_apps/api/list_cost_proyek_api.dart';
+import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
+import 'package:permata_architect_mobile_apps/poviders/list_progress_all.dart';
+import 'package:permata_architect_mobile_apps/poviders/proyek_provider.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/image/image_helper.dart';
+import '../../../poviders/auth_provider.dart';
 import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
 import 'dart:io';
 import '../../components/appbar/custom_appbar.dart';
 
 import '../../components/button/button_primary.dart';
+import '../../components/snackbar/snackbar_custom.dart';
+import 'project_details.dart';
 
 class ProjectTambahProgress extends StatefulWidget {
-  const ProjectTambahProgress({super.key});
+  final ListProyek listProyek;
+  const ProjectTambahProgress({super.key, required this.listProyek});
 
   @override
   State<ProjectTambahProgress> createState() => _ProjectTambahProgressState();
@@ -61,7 +71,8 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
       setState(() {
         _image = pickedImage;
       });
-      print("Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
+      print(
+          "Gambar dipilih dari ${source == ImageSource.gallery ? 'galeri' : 'kamera'}");
     } else {
       print("Tidak ada gambar yang dipilih");
     }
@@ -71,6 +82,39 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
     await _imageHelper.uploadImage(imageFile);
   }
 
+  Future<void> _addProgress(
+      {String? name,
+      String? detailLokasi,
+      String? progress,
+      String? keterangan,
+      String? idProyek}) async {
+    try {
+      await ApiAddProgress.addprogress(
+          name: name,
+          detailLokasi: detailLokasi,
+          progress: progress,
+          keteranganProgress: keterangan,
+          idProyek: idProyek,
+          image: _image);
+
+      print("Pemasukan berhasil ditambahkan");
+      Provider.of<ListProgressAllProvider>(context, listen: false)
+          .fetchGetList();
+      CustomSnackbar.showSuccessSnackbar(context, 'Data berhasil ditambahkan!');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProjectDetails(
+            listProyek: widget.listProyek,
+          ),
+        ),
+      );
+    } catch (error) {
+      print("Error: $error");
+      CustomSnackbar.showFailedSnackbar(context, 'Gagal menambahkan data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -78,6 +122,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
     double appBarHeight = kToolbarHeight;
 
     double bodyHeight = screenHeight - topPadding - appBarHeight;
+
     // TODO: implement build
     return Scaffold(
       appBar: CustomAppBar(
@@ -155,8 +200,17 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                     primaryButton(
                         text: "Simpan",
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            print("Dah Lengkap");
+                          if (_formKey.currentState!.validate() &&
+                              _image != null) {
+                            print(
+                                "Data diprint\nname = ${_controllerNameSueveyor.text}\nlokasi = ${_controllerDetailLokasi.text}\nprogress = ${_controllerProgress.text}\nketerangan = ${_controllerKeterangan.text}\nid=${widget.listProyek.idProyek.toString()}");
+                            _addProgress(
+                                name: _controllerNameSueveyor.text,
+                                detailLokasi: _controllerDetailLokasi.text,
+                                progress: _controllerProgress.text,
+                                keterangan: _controllerKeterangan.text,
+                                idProyek:
+                                    widget.listProyek.idProyek.toString());
                           } else {
                             print("Lengkapi dahulu");
                           }
@@ -368,7 +422,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      "$progressName[index]",
+                                      "${progressName[index]}",
                                       style:
                                           regularFont.copyWith(fontSize: 18.sp),
                                     ),

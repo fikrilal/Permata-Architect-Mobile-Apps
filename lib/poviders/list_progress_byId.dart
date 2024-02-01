@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:permata_architect_mobile_apps/api/api_list_progress.dart';
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_progress_model.dart';
 
-enum ResultListProgress { loading, noData, hasData, error, first }
+enum ResultProgressId { loading, noData, hasData, error, first }
 
-class ListProgressAllProvider extends ChangeNotifier {
+class ListProgressByIdProvider extends ChangeNotifier {
   final GetListProgressService getListProgressService;
+  String? _lasrequestId;
   StreamSubscription? _connectivitySubscription;
 
-  ListProgressAllProvider({required this.getListProgressService}) {
-    fetchGetList();
+  ListProgressByIdProvider({required this.getListProgressService}) {
     _connectivitySubscription =
         Connectivity().onConnectivityChanged.listen(_updateConnectionStatus);
     notifyListeners();
@@ -26,34 +26,37 @@ class ListProgressAllProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  late ResultListProgress _state;
+  late ResultProgressId _state;
   late List<ListProgress> _listprogress;
   late String _message = '';
 
   String get message => _message;
   List<ListProgress> get listprogress => _listprogress;
-  ResultListProgress get state => _state;
+  ResultProgressId get state => _state;
 
-  Future<dynamic> fetchGetList() async {
+  Future<dynamic> fetchGetById({String? idProyek}) async {
+    _lasrequestId = idProyek;
     try {
-      _state = ResultListProgress.loading;
+      _state = ResultProgressId.loading;
+
+      final getlistproyek =
+          await getListProgressService.listprogressById(idProyek: idProyek);
       notifyListeners();
-      final getlistproyek = await getListProgressService.listprogressAll();
       if (getlistproyek.isEmpty) {
-        _state = ResultListProgress.noData;
+        _state = ResultProgressId.noData;
         notifyListeners();
-        return _message = 'Empthy Data';
+        return _message = 'Belum ada Progress pada Proyek ini';
       } else {
-        _state = ResultListProgress.hasData;
+        _state = ResultProgressId.hasData;
         notifyListeners();
         return _listprogress = getlistproyek;
       }
     } on SocketException {
-      _state = ResultListProgress.error;
+      _state = ResultProgressId.error;
       notifyListeners();
       _message = '404';
     } catch (e) {
-      _state = ResultListProgress.error;
+      _state = ResultProgressId.error;
       notifyListeners();
       return _message = 'Error --> $e';
     }
@@ -61,7 +64,7 @@ class ListProgressAllProvider extends ChangeNotifier {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     if (result != ConnectivityResult.none) {
-      await fetchGetList();
+      await fetchGetById(idProyek: _lasrequestId);
     }
   }
 }

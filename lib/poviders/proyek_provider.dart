@@ -10,7 +10,8 @@ class ListCostProyekProvider extends ChangeNotifier {
   final GetListCostProyekService getListCostProyekService;
 
   ListCostProyekProvider({required this.getListCostProyekService}) {
-    _fetAllListRestaurants();
+    fetchTotalProyek();
+    notifyListeners();
   }
   late ResulState _state;
   late List<ListCostProyek> _listCostProyek;
@@ -20,7 +21,7 @@ class ListCostProyekProvider extends ChangeNotifier {
   List<ListCostProyek> get listCostProyek => _listCostProyek;
   ResulState get state => _state;
 
-  Future<dynamic> _fetAllListRestaurants() async {
+  Future<dynamic> fetchTotalProyek() async {
     try {
       _state = ResulState.loading;
       notifyListeners();

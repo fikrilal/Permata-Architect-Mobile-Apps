@@ -5,7 +5,9 @@ import 'package:permata_architect_mobile_apps/repository/api/api_tambah_pengelua
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
+import 'package:provider/provider.dart';
 import '../../../models/image/image_helper.dart';
+import '../../../poviders/proyek_provider.dart';
 import '../../components/appbar/custom_appbar.dart';
 import 'dart:io';
 
@@ -70,6 +72,8 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
         image: _image!,
       );
       print("Pemasukan berhasil ditambahkan");
+      Provider.of<ListCostProyekProvider>(context, listen: false)
+          .fetchTotalProyek();
       CustomSnackbar.showSuccessSnackbar(context, 'Data berhasil ditambahkan!');
       Navigator.push(
         context,

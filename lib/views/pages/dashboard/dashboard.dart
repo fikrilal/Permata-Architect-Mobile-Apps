@@ -136,7 +136,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 return const CircularProgressIndicator();
               } else if (state.state == ResultListProgress.hasData) {
                 return ListView.builder(
-                  itemCount: state.listprogress.length,
+                  // itemCount: state.listprogress.length,
+                  itemCount: 5,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
