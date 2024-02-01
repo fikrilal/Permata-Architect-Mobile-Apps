@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 
+import '../repository/api/api_config.dart';
+
 class GetListProyekService {
-  String baseUrl = 'http://192.168.0.105:8000/api';
 
   Future<List<ListProyek>> listproyek() async {
-    Uri url = Uri.parse('$baseUrl/proyek');
+    Uri url = Uri.parse('${ApiConfig.baseUrl}/proyek');
     var headers = {'Content-Type': 'application/json'};
     var response = await http.get(url, headers: headers);
 
@@ -23,7 +24,7 @@ class GetListProyekService {
   }
 
   Future<List<ListProyek>> carilistproyek({String? query}) async {
-    Uri url = Uri.parse('$baseUrl/proyek?q=$query');
+    Uri url = Uri.parse('${ApiConfig.baseUrl}/proyek?q=$query');
     var headers = {'Content-Type': 'application/json'};
     var response = await http.get(url, headers: headers);
 

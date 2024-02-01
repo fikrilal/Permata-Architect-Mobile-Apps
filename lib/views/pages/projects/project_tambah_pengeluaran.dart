@@ -5,13 +5,15 @@ import 'package:permata_architect_mobile_apps/views/components/button/button_pri
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import '../../../models/image/image_helper.dart';
+import '../../../models/proyek_model/list_proyek_model.dart';
 import '../../components/appbar/custom_appbar.dart';
 import 'dart:io';
 
 import '../../components/snackbar/snackbar_custom.dart';
 
 class ProjectTambahPengeluaran extends StatefulWidget {
-  const ProjectTambahPengeluaran({super.key});
+  final ListProyek listProyek;
+  const ProjectTambahPengeluaran({super.key, required this.listProyek});
 
   @override
   State<ProjectTambahPengeluaran> createState() =>
@@ -53,14 +55,13 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
   }
 
   Future<void> _addPengeluaran() async {
-    BuildContext currentContext = context;
     try {
       await _apiTambahPengeluaran.addPengeluaran(
         judulPengeluaran: _controllerNamaBarang.text,
         keterangan: _controllerKeterangan.text,
         sumberDana: _controllerSumberDana.text,
         id: 1,
-        idProyek: 11,
+        idProyek: int.parse(widget.listProyek.idProyek.toString()),
         satuan: _controllerSatuan.text,
         quantity: int.parse(_controllerQuantity.text),
         hargaSatuan: int.parse(_controllerSatuan.text),
@@ -72,7 +73,7 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProjectDetails(),
+          builder: (context) => ProjectDetails(listProyek: widget.listProyek),
         ),
       );
     } catch (error) {

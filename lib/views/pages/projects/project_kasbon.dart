@@ -6,31 +6,40 @@ import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 
+import '../../../models/proyek_model/list_proyek_model.dart';
+import '../../../repository/api/api_kasbon.dart';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/textfield/textfield_search.dart';
 
 class ProjectKasbon extends StatefulWidget {
-  const ProjectKasbon({super.key});
+  final ListProyek listProyek;
+
+  const ProjectKasbon({super.key, required this.listProyek});
 
   @override
   State<ProjectKasbon> createState() => _ProjectKasbonState();
 }
 
 class _ProjectKasbonState extends State<ProjectKasbon> {
+  late Future<List<KasbonData>> futureKasbons;
   final TextEditingController _controllerHarga = TextEditingController();
   final TextEditingController _controllerSearchName = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    futureKasbons = ApiKasbon.getKasbons(widget.listProyek.idProyek);
+  }
+
+  @override
   void dispose() {
-    // TODO: implement dispose
     _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: CustomAppBar(
         title: "Kasbon",
@@ -39,34 +48,52 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
         },
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-          child: Column(children: [
-            TextFieldSearchWidget(
-                controller: _controllerSearchName,
-                keyboardType: TextInputType.name,
-                text: "Cari Pekerja.."),
-            const SizedBox(
-              height: 15,
-            ),
-            ListView.builder(
-              itemCount: 20,
-              shrinkWrap: true,
-              controller: _scrollController,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return lisKasbon(
-                    name: "Muhammad Al-kahfi", kasbonPrice: "28.000");
-              },
-            ),
-          ]),
+        child: FutureBuilder<List<KasbonData>>(
+          future: futureKasbons,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              List<KasbonData> kasbons = snapshot.data!;
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
+                  child: Column(
+                    children: [
+                      TextFieldSearchWidget(
+                        controller: _controllerSearchName,
+                        keyboardType: TextInputType.name,
+                        text: "Cari Pekerja..",
+                      ),
+                      const SizedBox(height: 15),
+                      ListView.builder(
+                        itemCount: kasbons.length,
+                        shrinkWrap: true,
+                        controller: _scrollController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final kasbon = kasbons[index];
+                          return lisKasbon(
+                            name: kasbon.namaPekerja,
+                            kasbonPrice: kasbon.jumlahKasbon,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
         ),
-      )),
+      ),
     );
   }
 
-  Widget lisKasbon({String? name, String? kasbonPrice}) {
+
+  Widget lisKasbon({required String name, required String kasbonPrice}) {
     return Column(
       children: [
         InkWell(

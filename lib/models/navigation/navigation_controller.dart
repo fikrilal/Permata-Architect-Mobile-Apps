@@ -61,15 +61,17 @@ class NavigationController {
           );
         },
       ),
-      GoRoute(
-        path: '/KasbonPage',
-        name: 'KasbonPage',
-        builder: (context, state) {
-          return ProjectKasbon(
-            key: state.pageKey,
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: '/KasbonPage',
+      //   name: 'KasbonPage',
+      //   builder: (context, state) {
+      //     return ProjectKasbon(
+      //       key: state.pageKey,
+      //       listProyek:
+      //       ModalRoute.of(context)?.settings.arguments as ListProyek,
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: '/SplashPage',
         name: 'SplashPage',
