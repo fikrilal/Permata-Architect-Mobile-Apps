@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../repository/res/color_libraries.dart';
@@ -34,7 +35,7 @@ class TextDescriptionPrimary extends StatelessWidget {
       style: TextStyle(
           fontFamily: 'Satoshi',
           fontSize: 18.sp,
-          color: ListColor.primary,
+          color: Colors.white,
           fontWeight: FontWeight.w500,
           height: 0,
           overflow: TextOverflow.ellipsis),
@@ -55,7 +56,7 @@ class TextDescriptionWarning extends StatelessWidget {
       style: TextStyle(
           fontFamily: 'Satoshi',
           fontSize: 18.sp,
-          color: ListColor.red,
+          color: Colors.white,
           fontWeight: FontWeight.w500,
           height: 0,
           overflow: TextOverflow.ellipsis),

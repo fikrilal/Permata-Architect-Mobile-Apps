@@ -13,7 +13,7 @@ class CustomSnackbar {
         content: Container(
           padding: EdgeInsets.all(16.w),
           decoration: ShapeDecoration(
-            color: const Color(0x3D419681),
+            color: ListColor.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -24,7 +24,7 @@ class CustomSnackbar {
                 'assets/icons/success.svg',
                 width: 32.w,
                 height: 32.h,
-                color: ListColor.primary,
+                color: Colors.white,
               ),
               SizedBox(width: 10.w),
               TextDescriptionPrimary(message),
@@ -45,7 +45,7 @@ class CustomSnackbar {
           padding: EdgeInsets.all(16.w),
           margin: EdgeInsets.only(bottom: 40.h),
           decoration: ShapeDecoration(
-            color: const Color(0x3DEB5757),
+            color: ListColor.red,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -56,7 +56,7 @@ class CustomSnackbar {
                 'assets/icons/failed.svg',
                 width: 32.w,
                 height: 32.h,
-                color: ListColor.red,
+                color: Colors.white,
               ),
               SizedBox(width: 10.w),
               TextDescriptionWarning(error),
