@@ -13,6 +13,12 @@ class ListProgressByIdProvider extends ChangeNotifier {
   String? _lasrequestId;
   StreamSubscription? _connectivitySubscription;
 
+  Map<String, Map<String, String>> _projectInputs = {};
+
+  Map<String, String> getInputForProject(String projectId) {
+    return _projectInputs[projectId] ?? {};
+  }
+
   ListProgressByIdProvider({required this.getListProgressService}) {
     _connectivitySubscription =
         Connectivity().onConnectivityChanged.listen(_updateConnectionStatus);
@@ -33,6 +39,24 @@ class ListProgressByIdProvider extends ChangeNotifier {
   String get message => _message;
   List<ListProgress> get listprogress => _listprogress;
   ResultProgressId get state => _state;
+
+  void setInputForProject(String projectId, String field, String value) {
+    if (!_projectInputs.containsKey(projectId)) {
+      _projectInputs[projectId] = {};
+    }
+    _projectInputs[projectId]![field] = value;
+    notifyListeners();
+  }
+
+  void clearInputForProject(String projectId) {
+    _projectInputs.remove(projectId);
+    notifyListeners();
+  }
+
+  void clearAll() {
+    _projectInputs.clear();
+    notifyListeners();
+  }
 
   Future<dynamic> fetchGetById({String? idProyek}) async {
     _lasrequestId = idProyek;

@@ -3,15 +3,12 @@ import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permata_architect_mobile_apps/api/api_add_progress.dart';
-import 'package:permata_architect_mobile_apps/api/list_cost_proyek_api.dart';
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/poviders/list_progress_all.dart';
-import 'package:permata_architect_mobile_apps/poviders/proyek_provider.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/image/image_helper.dart';
-import '../../../poviders/auth_provider.dart';
 import '../../../repository/res/color_libraries.dart';
 import '../../../repository/res/font_style.dart';
 import 'dart:io';
@@ -42,7 +39,35 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
     'Pondasi - Pekerjaan Foot Plate',
     'Pondasi - Pekerjaan pasang Kumbung',
     'Pondasi - Pekerjaan Instalasi paralon air kotor',
-    'Pondasi - Pekerjaan Sloof'
+    'Pondasi - Pekerjaan Sloof',
+    'Pondasi - Pasang Nol Rumah',
+    'Pondasi - Urug Pondasi',
+    'Pondasi - Rabat lantai',
+    'Badan - Pasang Kolom',
+    'Badan - Pasangan Dinding',
+    'Badan - Pasang Kusen Pintu',
+    'Badan - Pasang Kusen Jendela',
+    'Badan - Pasang Balok Latei(Sabuk)',
+    'Badan - Pasang Ringblak (Ring)',
+    'Atap - Pekerjaan Talang',
+    'Atap - Pekerjaan Rangka',
+    'Atap - Pasang Genteng',
+    'Atap - Pekerjaan Wuwung',
+    'Atap - Finishing Atap',
+    'Finishing - Pasang Jaringan Listrik',
+    'Finishing - Plester Dinding',
+    'Finishing - Pasang Plafon',
+    'Finishing - Pasang Granit/Keramik Lantai',
+    'Finishing - Pasang Granit/Keramik KM/WC',
+    'Finishing - Pasang Daun Pintu',
+    'Finishing - Pasang Daun Jendela',
+    'Finishing - Pekerjaan Meja Dapur',
+    'Finishing - Pekerjaan Granit/keramik Dinding',
+    'Finishing - Pekerjaan Acian',
+    'Finishing - Pekerjaan Plamir',
+    'Finishing - Pasang Elektrikal',
+    'Finishing - Pekerjaan Cat Rumah',
+    'Tambahan - Pekerjaan Pagar'
   ];
   List<bool>? _isChecked;
   List<String> selectedProgress = [];
@@ -51,6 +76,19 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
   void initState() {
     super.initState();
     _isChecked = List<bool>.filled(progressName.length, false);
+
+    // var provider =
+    //     Provider.of<ListProgressByIdProvider>(context, listen: false);
+
+    // var projectInput =
+    //     provider.getInputForProject(widget.listProyek.idProyek.toString());
+    // _controllerNameSueveyor =
+    //     TextEditingController(text: projectInput['nameSurveyor']);
+
+    // _controllerNameSueveyor.addListener(() {
+    //   provider.setInputForProject(widget.listProyek.idProyek.toString(),
+    //       'nameSurveyor', _controllerNameSueveyor.text);
+    // });
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -78,10 +116,6 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
     }
   }
 
-  Future<void> _uploadImage(File imageFile) async {
-    await _imageHelper.uploadImage(imageFile);
-  }
-
   Future<void> _addProgress(
       {String? name,
       String? detailLokasi,
@@ -98,6 +132,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
           image: _image);
 
       print("Pemasukan berhasil ditambahkan");
+      // ignore: use_build_context_synchronously
       Provider.of<ListProgressAllProvider>(context, listen: false)
           .fetchGetList();
       CustomSnackbar.showSuccessSnackbar(context, 'Data berhasil ditambahkan!');
@@ -167,21 +202,21 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("Pilih Sumber Gambar"),
+                              title: const Text("Pilih Sumber Gambar"),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   ListTile(
-                                    leading: Icon(Icons.photo_library),
-                                    title: Text("Galeri"),
+                                    leading: const Icon(Icons.photo_library),
+                                    title: const Text("Galeri"),
                                     onTap: () {
                                       Navigator.pop(context);
                                       _pickImage(ImageSource.gallery);
                                     },
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.camera_alt),
-                                    title: Text("Kamera"),
+                                    leading: const Icon(Icons.camera_alt),
+                                    title: const Text("Kamera"),
                                     onTap: () {
                                       Navigator.pop(context);
                                       _pickImage(ImageSource.camera);
@@ -246,7 +281,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return 'Mohon Lengkapi';
             }
             return null;
           },

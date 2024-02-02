@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/image/image_helper.dart';
 import '../../../poviders/auth_provider.dart';
 import '../../../repository/api/api_tambah_pemasukan.dart';
-import '../../../repository/res/color_libraries.dart';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/button/button_primary.dart';
 import '../../components/snackbar/snackbar_custom.dart';
-import '../../components/text/description.dart';
 import '../../components/textfield/textfield_primary.dart';
 
 class ProjectTambahPemasukan extends StatefulWidget {
@@ -56,14 +53,19 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
     }
   }
 
-  Future<void> _addPemasukan({int? user}) async {
+  Future<void> _addPemasukan() async {
     BuildContext currentContext = context;
     try {
+      //ID USER
+      final prefs = await SharedPreferences.getInstance();
+      int idUser = int.parse(prefs.getString('userId').toString());
+      print("user idnya adalah = $idUser");
+
       await _apiTambahPemasukan.addPemasukan(
         jumlahPemasukan: int.parse(_controllerNominal.text),
         keterangan: _controllerPemasukan.text,
         sumberDana: _controllerSumberDana.text,
-        id: user!,
+        id: idUser,
         id_proyek: int.parse(widget.listProyek.idProyek.toString()),
         image: _image!,
       );
@@ -160,7 +162,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                     text: "Simpan",
                     onPressed: () {
                       if (_formKey.currentState!.validate() && _image != null) {
-                        _addPemasukan(user: authProvider.user!.id);
+                        _addPemasukan();
                       } else {
                         print("Lengkapi data dan pilih gambar dahulu");
                       }

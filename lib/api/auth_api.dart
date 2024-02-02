@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../repository/api/api_config.dart';
 
 class AuthService {
-
   Future<UserModel> register(
       {String? name, String? email, String? password}) async {
     Uri url = Uri.parse('${ApiConfig.baseUrl}/register');
@@ -40,6 +39,7 @@ class AuthService {
       var data = jsonDecode(response.body)['data'];
       UserModel user = UserModel.fromJson(data['user']);
       user.token = "Bearer ${data['access_token']}";
+      print('user token api = ${user.token}');
       return user;
     } else {
       throw Exception(message.message);

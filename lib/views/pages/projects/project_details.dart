@@ -14,7 +14,6 @@ import 'package:permata_architect_mobile_apps/views/pages/projects/project_tamba
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_tambah_progress.dart';
 import 'package:provider/provider.dart';
 
-import '../../../poviders/list_progress_all.dart';
 import '../../../poviders/list_progress_byId.dart';
 import '../../../repository/api/api_config.dart';
 import '../../../repository/res/font_style.dart';

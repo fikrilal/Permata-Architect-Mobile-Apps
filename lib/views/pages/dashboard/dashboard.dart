@@ -12,6 +12,7 @@ import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 import 'package:permata_architect_mobile_apps/views/components/text/format_date.dart';
 import 'package:permata_architect_mobile_apps/views/components/text/format_rupiah.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -21,11 +22,13 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  String nameUser = 'Loading...';
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
+    getUserName();
   }
 
   String greeting() {
@@ -41,9 +44,14 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
+  Future<String> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return nameUser = prefs.getString('userName') ?? 'No Name';
+  }
+
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    // AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -53,9 +61,23 @@ class _DashboardPageState extends State<DashboardPage> {
             Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
-              child: header(
-                  greeting: "Selamat ${greeting()}, ${authProvider.user!.name}",
-                  urlImage: ""),
+              child: FutureBuilder<String>(
+                future: getUserName(), // This should return a Future<String>
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator(); // Or some placeholder
+                  } else if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else {
+                    // Once the data is fetched, use it directly from the snapshot
+                    String nameUser = snapshot.data ?? 'No Name';
+                    return header(
+                      greeting: "Selamat ${greeting()}, $nameUser",
+                      urlImage: "",
+                    );
+                  }
+                },
+              ),
             ),
             const Divider(
               color: ListColor.gray100,

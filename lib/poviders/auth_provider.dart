@@ -3,17 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permata_architect_mobile_apps/api/auth_api.dart';
 import 'package:permata_architect_mobile_apps/models/auth_model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   UserModel? _user;
   UserModel? get user => _user;
   String _message = '';
   String get message => _message;
-
-  set user(UserModel? user) {
-    _user = user;
-    notifyListeners();
-  }
 
   Future<bool> accountRegister(
       {String? name, String? email, String? password}) async {
@@ -38,6 +34,13 @@ class AuthProvider extends ChangeNotifier {
       UserModel user =
           await AuthService().login(email: email, password: password);
       _user = user;
+      // Simpan data login ke SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      await prefs.setString('userName', user.name.toString());
+      await prefs.setString('userId', user.id.toString());
+      await prefs.setString('userEmail', user.email.toString());
+      await prefs.setString('token', user.token.toString());
       return true;
     } on SocketException {
       _message = 'no internet';
