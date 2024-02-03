@@ -22,12 +22,14 @@ class CustomSnackbar {
             children: [
               SvgPicture.asset(
                 'assets/icons/success.svg',
-                width: 32.w,
-                height: 32.h,
+                width: 24.w,
+                height: 24.h,
                 color: Colors.white,
               ),
               SizedBox(width: 10.w),
-              TextDescriptionPrimary(message),
+              Expanded(
+                child: TextDescriptionPrimary(message),
+              ),
             ],
           ),
         ),
@@ -54,8 +56,8 @@ class CustomSnackbar {
             children: [
               SvgPicture.asset(
                 'assets/icons/failed.svg',
-                width: 32.w,
-                height: 32.h,
+                width: 24.w,
+                height: 24.h,
                 color: Colors.white,
               ),
               SizedBox(width: 10.w),

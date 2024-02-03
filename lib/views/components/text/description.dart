@@ -34,12 +34,12 @@ class TextDescriptionPrimary extends StatelessWidget {
       "${text}",
       style: TextStyle(
           fontFamily: 'Satoshi',
-          fontSize: 18.sp,
+          fontSize: 16.sp,
           color: Colors.white,
           fontWeight: FontWeight.w500,
           height: 0,
           overflow: TextOverflow.ellipsis),
-      maxLines: 1,
+      maxLines: 2,
     );
   }
 }
@@ -55,7 +55,7 @@ class TextDescriptionWarning extends StatelessWidget {
       "${text}",
       style: TextStyle(
           fontFamily: 'Satoshi',
-          fontSize: 18.sp,
+          fontSize: 16.sp,
           color: Colors.white,
           fontWeight: FontWeight.w500,
           height: 0,
@@ -81,7 +81,7 @@ class TextDescriptionMainOver extends StatelessWidget {
           fontWeight: FontWeight.w500,
           height: 0,
           overflow: TextOverflow.ellipsis),
-      maxLines: 1,
+      maxLines: 2,
     );
   }
 }
