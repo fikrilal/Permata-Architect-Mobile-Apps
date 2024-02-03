@@ -68,21 +68,25 @@ class _ProjectListState extends State<ProjectList> {
                   controller: _controllerSearchName,
                   keyboardType: TextInputType.name,
                   onChanged: (String value) {
-                    if (value == '') {
-                      print("kosong");
+                    if (value.isNotEmpty) {
+                      Provider.of<SearchListProyek>(context, listen: false)
+                          .searchlist(value);
+                      setState(() {
+                        isSearching = true;
+                      });
+                    } else {
                       setState(() {
                         isSearching = false;
                       });
-                    } else {
-                      print('value = $value');
                     }
                   },
                   onSubmiited: (String value) {
-                    if (value != '') {
+                    if (value.isNotEmpty) {
                       _onSearchSubmitted(value);
                     }
                   },
                   text: "Cari Proyek.."),
+              SizedBox(height: 8.h),
               isSearching
                   ? _buildSearchList() // Tampilkan hasil pencarian
                   : _buildListProyek()
@@ -105,27 +109,23 @@ class _ProjectListState extends State<ProjectList> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final datalist = state.searchResults![index];
-              return Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: GestureDetector(
-                  onTap: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProjectDetails(
-                          listProyek: datalist,
-                        ),
+              return GestureDetector(
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProjectDetails(
+                        listProyek: datalist,
                       ),
-                    );
-                    await saveidproyek(
-                        'idProyek', datalist.idProyek.toString());
-                  },
-                  child: CardListProject(
-                    alamat: "${datalist.lokasiProyek}",
-                    lokasi: "${datalist.keterangan}",
-                    pemilik: "${datalist.namaPemilik}",
-                    status: "${datalist.status}",
-                  ),
+                    ),
+                  );
+                  await saveidproyek('idProyek', datalist.idProyek.toString());
+                },
+                child: CardListProject(
+                  alamat: "${datalist.lokasiProyek}",
+                  lokasi: "${datalist.keterangan}",
+                  pemilik: "${datalist.namaPemilik}",
+                  status: "${datalist.status}",
                 ),
               );
             },
@@ -153,27 +153,23 @@ class _ProjectListState extends State<ProjectList> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final datalist = state.listProyek[index];
-              return Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: GestureDetector(
-                  onTap: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProjectDetails(
-                          listProyek: datalist,
-                        ),
+              return GestureDetector(
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProjectDetails(
+                        listProyek: datalist,
                       ),
-                    );
-                    await saveidproyek(
-                        'idProyek', datalist.idProyek.toString());
-                  },
-                  child: CardListProject(
-                    alamat: "${datalist.lokasiProyek}",
-                    lokasi: "${datalist.keterangan}",
-                    pemilik: "${datalist.namaPemilik}",
-                    status: "${datalist.status}",
-                  ),
+                    ),
+                  );
+                  await saveidproyek('idProyek', datalist.idProyek.toString());
+                },
+                child: CardListProject(
+                  alamat: "${datalist.lokasiProyek}",
+                  lokasi: "${datalist.keterangan}",
+                  pemilik: "${datalist.namaPemilik}",
+                  status: "${datalist.status}",
                 ),
               );
             },
