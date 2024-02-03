@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:permata_architect_mobile_apps/repository/api/api_update_kasbon.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
 import 'package:permata_architect_mobile_apps/repository/res/font_style.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
@@ -22,6 +23,8 @@ class ProjectKasbon extends StatefulWidget {
 
 class _ProjectKasbonState extends State<ProjectKasbon> {
   late Future<List<KasbonData>> futureKasbons;
+  List<KasbonData> allKasbons = []; // Untuk menyimpan semua kasbon
+  List<KasbonData> filteredKasbons = []; // Untuk menyimpan kasbon yang difilter
   final TextEditingController _controllerHarga = TextEditingController();
   final TextEditingController _controllerSearchName = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -29,13 +32,53 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
   @override
   void initState() {
     super.initState();
-    futureKasbons = ApiKasbon.getKasbons(widget.listProyek.idProyek);
+    _loadKasbons();
+
+    _controllerSearchName.addListener(_filterKasbons);
+  }
+
+  void _loadKasbons() {
+    ApiKasbon.getKasbons(widget.listProyek.idProyek).then((kasbons) {
+      setState(() {
+        allKasbons = kasbons;
+        filteredKasbons = kasbons;
+      });
+    }).catchError((error) {
+      print("Error loading kasbons: $error");
+    });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _controllerSearchName.dispose();
     super.dispose();
+  }
+
+  void _filterKasbons() {
+    final query = _controllerSearchName.text.toLowerCase();
+
+    setState(() {
+      filteredKasbons = allKasbons.where((kasbon) {
+        return kasbon.namaPekerja.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  void updateKasbons(
+      String idPekerja, String idProyek, String jumlahKasbon) async {
+    final result = await ApiUpdateKasbon.updateKasbons(
+      idPekerja: idPekerja,
+      idProyek: idProyek,
+      jumlahKasbon: jumlahKasbon,
+    );
+
+    if (result['success']) {
+      _controllerHarga.clear();
+      _loadKasbons();
+    } else {
+      // Handle failure
+    }
   }
 
   @override
@@ -48,57 +91,48 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
         },
       ),
       body: SafeArea(
-        child: FutureBuilder<List<KasbonData>>(
-          future: futureKasbons,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              List<KasbonData> kasbons = snapshot.data!;
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
-                  child: Column(
-                    children: [
-                      TextFieldSearchWidget(
-                        controller: _controllerSearchName,
-                        keyboardType: TextInputType.name,
-                        text: "Cari Pekerja..",
-                      ),
-                      const SizedBox(height: 15),
-                      ListView.builder(
-                        itemCount: kasbons.length,
-                        shrinkWrap: true,
-                        controller: _scrollController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final kasbon = kasbons[index];
-                          return lisKasbon(
-                            name: kasbon.namaPekerja,
-                            kasbonPrice: kasbon.jumlahKasbon,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 24.h, 0, 24.h),
+            child: Column(
+              children: [
+                TextFieldSearchWidget(
+                  controller: _controllerSearchName,
+                  keyboardType: TextInputType.name,
+                  text: "Cari Pekerja..",
                 ),
-              );
-            }
-          },
+                const SizedBox(height: 15),
+                ListView.builder(
+                  itemCount: filteredKasbons.length,
+                  shrinkWrap: true,
+                  controller: _scrollController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final kasbon = filteredKasbons[index];
+                    return lisKasbon(
+                      name: kasbon.namaPekerja,
+                      kasbonPrice: kasbon.jumlahKasbon,
+                      idPekerja: kasbon.idPekerja.toString(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-
-  Widget lisKasbon({required String name, required String kasbonPrice}) {
+  Widget lisKasbon(
+      {required String name,
+      required String kasbonPrice,
+      required String idPekerja}) {
     return Column(
       children: [
         InkWell(
           onTap: () {
-            showAction();
+            showAction(name, idPekerja);
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
@@ -136,7 +170,7 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
     );
   }
 
-  void showAction() {
+  void showAction(String name, String idPekerja) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -178,7 +212,7 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
                     style: headerFontMenu.copyWith(fontSize: 24),
                   ),
                   Text(
-                    "Kurangi nominal kasbon untuk Mohammad Al-Kahfi",
+                    "Kurangi nominal kasbon untuk $name",
                     style: subHeaderFont.copyWith(fontSize: 18),
                   ),
                   SizedBox(
@@ -193,7 +227,17 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
                   SizedBox(
                     height: 16.h,
                   ),
-                  primaryButton(text: "Simpan", onPressed: () {}),
+                  primaryButton(
+                    text: "Simpan",
+                    onPressed: () {
+                      // Call the updateKasbons function here
+                      updateKasbons(
+                          idPekerja,
+                          widget.listProyek.idProyek.toString(),
+                          _controllerHarga.text);
+                      Navigator.pop(context);
+                    },
+                  ),
                 ],
               ),
             ),
