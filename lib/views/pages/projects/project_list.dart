@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../repository/res/color_libraries.dart';
 import '../../components/card/card_list_project.dart';
+import '../../components/card/empty_state.dart';
 import '../../components/textfield/textfield_search.dart';
 import 'project_details.dart';
 
@@ -178,7 +179,7 @@ class _ProjectListState extends State<ProjectList> {
           if (state.message == '404') {
             return const Text('Terjadi masalah jaringan');
           } else {
-            return Text(state.message);
+            return buildEmptyState('Tidak ada proyek yang tersedia');
           }
         }
       },

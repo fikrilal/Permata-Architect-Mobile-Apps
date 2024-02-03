@@ -10,6 +10,7 @@ import 'package:permata_architect_mobile_apps/views/components/textfield/textfie
 import '../../../models/proyek_model/list_proyek_model.dart';
 import '../../../repository/api/api_kasbon.dart';
 import '../../components/appbar/custom_appbar.dart';
+import '../../components/card/empty_state.dart';
 import '../../components/textfield/textfield_search.dart';
 
 class ProjectKasbon extends StatefulWidget {
@@ -102,20 +103,22 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
                   text: "Cari Pekerja..",
                 ),
                 const SizedBox(height: 15),
-                ListView.builder(
+                filteredKasbons.isNotEmpty
+                    ? ListView.builder(
                   itemCount: filteredKasbons.length,
                   shrinkWrap: true,
                   controller: _scrollController,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final kasbon = filteredKasbons[index];
-                    return lisKasbon(
+                    return listKasbon(
                       name: kasbon.namaPekerja,
                       kasbonPrice: kasbon.jumlahKasbon,
                       idPekerja: kasbon.idPekerja.toString(),
                     );
                   },
-                ),
+                )
+                    : buildEmptyState('Belum ada data kasbon pekerja di proyek ini'),
               ],
             ),
           ),
@@ -124,7 +127,7 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
     );
   }
 
-  Widget lisKasbon(
+  Widget listKasbon(
       {required String name,
       required String kasbonPrice,
       required String idPekerja}) {

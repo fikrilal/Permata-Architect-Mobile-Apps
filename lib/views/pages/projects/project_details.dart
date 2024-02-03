@@ -20,6 +20,7 @@ import '../../../repository/res/font_style.dart';
 import '../../components/appbar/custom_appbar.dart';
 import '../../components/card/card_expandable.dart';
 import '../../components/card/card_list.dart';
+import '../../components/card/empty_state.dart';
 import '../../components/text/format_date.dart';
 
 class ProjectDetails extends StatefulWidget {
@@ -227,7 +228,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               if (state.message == '404') {
                 return const Text('Terjadi masalah jaringan');
               } else {
-                return Text(state.message);
+                return buildEmptyState('Belum ada progress pada proyek ini');
               }
             }
           },

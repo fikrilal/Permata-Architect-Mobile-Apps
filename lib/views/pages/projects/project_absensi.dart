@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 import '../../../repository/res/color_libraries.dart';
 import '../../components/appbar/custom_appbar.dart';
+import '../../components/card/empty_state.dart';
 
 class ProjectAbsensi extends StatefulWidget {
   final ListProyek listProyek;
@@ -63,9 +64,7 @@ class _ProjectAbsensiState extends State<ProjectAbsensi> {
               if (state.message == '404') {
                 return const Text('Terjadi masalah jaringan');
               } else if (state.message == 'Empthy Data') {
-                return const Center(
-                  child: Text("Tidak ada Data Pekerja"),
-                );
+                return buildEmptyState('Belum ada data pekerja di proyek ini');
               } else {
                 return Text(state.message);
               }
