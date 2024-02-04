@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_cost_proyek_model.dart';
-import 'package:permata_architect_mobile_apps/poviders/auth_provider.dart';
 import 'package:permata_architect_mobile_apps/poviders/list_progress_all.dart';
 import 'package:permata_architect_mobile_apps/poviders/proyek_provider.dart';
 import 'package:permata_architect_mobile_apps/repository/api/api_config.dart';
@@ -14,6 +13,10 @@ import 'package:permata_architect_mobile_apps/views/components/text/format_rupia
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../components/card/card_list_pengeluaran_proyek.dart';
+import '../../components/card/card_progress_proyek.dart';
+import '../../components/card/empty_state.dart';
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
@@ -23,6 +26,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String nameUser = 'Loading...';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -62,14 +66,14 @@ class _DashboardPageState extends State<DashboardPage> {
               padding:
                   EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
               child: FutureBuilder<String>(
-                future: getUserName(), // This should return a Future<String>
+                future: getUserName(),
+                // This should return a Future<String>
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator(); // Or some placeholder
+                    return CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text("Error: ${snapshot.error}");
                   } else {
-                    // Once the data is fetched, use it directly from the snapshot
                     String nameUser = snapshot.data ?? 'No Name';
                     return header(
                       greeting: "Selamat ${greeting()}, $nameUser",
@@ -83,7 +87,52 @@ class _DashboardPageState extends State<DashboardPage> {
               color: ListColor.gray100,
               thickness: 5,
             ),
-            progressProyek(),
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Progress Proyek",
+                    style: headerFontMenu.copyWith(fontSize: 20.sp),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Consumer<ListProgressAllProvider>(
+                    builder: (context, state, _) {
+                      if (state.state == ResultListProgress.loading) {
+                        return const CircularProgressIndicator();
+                      } else if (state.state == ResultListProgress.hasData) {
+                        return Column(
+                          children: [
+                            progressProyek(state),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            if (state
+                                .listprogress.isNotEmpty)
+                              blueText(
+                                onpressed: () {
+                                  print("Tampilkan Semua Proyek");
+                                },
+                              ),
+                          ],
+                        );
+                      } else {
+                        if (state.message == '404') {
+                          return const Text('Terjadi masalah jaringan');
+                        } else {
+                          return buildEmptyState(
+                              'Nampaknya beluk ada progress proyek apapun');
+                        }
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: 10.h,
             ),
@@ -91,23 +140,52 @@ class _DashboardPageState extends State<DashboardPage> {
               color: ListColor.gray100,
               thickness: 5,
             ),
-            Consumer<ListCostProyekProvider>(
-              builder: (context, state, _) {
-                if (state.state == ResulState.loading) {
-                  return const CircularProgressIndicator();
-                } else if (state.state == ResulState.hasData) {
-                  return pengeluaranProyek(data: state.listCostProyek);
-                } else {
-                  if (state.message == '404') {
-                    return const Text('Terjadi masalah jaringan');
-                  } else {
-                    return Text(state.message);
-                  }
-                }
-              },
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Total Pengeluaran Proyek",
+                    style: headerFontMenu.copyWith(fontSize: 20.sp),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Consumer<ListCostProyekProvider>(
+                    builder: (context, state, _) {
+                      if (state.state == ResulState.loading) {
+                        return const CircularProgressIndicator();
+                      } else if (state.state == ResulState.hasData) {
+                        return Column(
+                          children: [
+                            pengeluaranProyek(data: state.listCostProyek),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            if (state.listCostProyek
+                                .isNotEmpty)
+                              blueText(
+                                onpressed: () {
+                                  print("Tampilkan Semua Proyek");
+                                },
+                              ),
+                          ],
+                        );
+                      } else {
+                        if (state.message == '404') {
+                          return const Text('Terjadi masalah jaringan');
+                        } else {
+                          return buildEmptyState(
+                              'Belum ada pengeluaran apapun');
+                        }
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
-            // pengeluaranProyek(
-            //     lokasi: "Lokasi Proyek 1", nominal: "Rp. 1.300.000"),
             SizedBox(
               height: 10.h,
             ),
@@ -135,169 +213,6 @@ class _DashboardPageState extends State<DashboardPage> {
       subtitle: Text(
         "Ada laporan hari ini?",
         style: subHeaderFont.copyWith(fontSize: 16.sp),
-      ),
-    );
-  }
-
-  Widget progressProyek() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Progress Proyek",
-            style: headerFontMenu.copyWith(fontSize: 20.sp),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Consumer<ListProgressAllProvider>(
-            builder: (context, state, _) {
-              if (state.state == ResultListProgress.loading) {
-                return const CircularProgressIndicator();
-              } else if (state.state == ResultListProgress.hasData) {
-                return ListView.builder(
-                  // itemCount: state.listprogress.length,
-                  itemCount: 5,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final data = state.listprogress[index];
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: Container(
-                            width: 56.w,
-                            height: 56.h,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5.r),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "${ApiConfig.baseUrlImage}${data.picUrl}",
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                        "assets/images/construction.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.all(0),
-                          title: Text(
-                            data.progress!,
-                            style: headerFontMenu.copyWith(fontSize: 18.sp),
-                          ),
-                          subtitle: Row(
-                            children: [
-                              const Icon(
-                                Hicons.location_light_outline,
-                                size: 20,
-                              ),
-                              SizedBox(
-                                width: 3.w,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  data.detailLokasi!,
-                                  style:
-                                      subHeaderFont.copyWith(fontSize: 16.sp),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: Text(
-                            dateMonth(date: data.tanggal),
-                            style: regularFont.copyWith(fontSize: 14.sp),
-                          ),
-                        ),
-                        const Divider(),
-                      ],
-                    );
-                  },
-                );
-              } else {
-                if (state.message == '404') {
-                  return const Text('Terjadi masalah jaringan');
-                } else {
-                  return Text(state.message);
-                }
-              }
-            },
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          blueText(
-            onpressed: () {
-              print("Tampilkan Semua Proyek");
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget pengeluaranProyek({List<ListCostProyek>? data}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.0.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Total Pengeluaran Proyek",
-            style: headerFontMenu.copyWith(fontSize: 20.sp),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          ListView.builder(
-            itemCount: data!.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final proyeks = data[index];
-              return Column(
-                children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.all(0),
-                    title: Text(
-                      formatRupiah(
-                          int.parse(proyeks.totalPengeluaran.toString())),
-                      style: headerFontMenu.copyWith(fontSize: 18),
-                    ),
-                    subtitle: Row(
-                      children: [
-                        const Icon(
-                          Hicons.location_light_outline,
-                          size: 20,
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Text(
-                          proyeks.lokasiProyek!,
-                          style: subHeaderFont.copyWith(fontSize: 16.sp),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                ],
-              );
-            },
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          blueText(
-            onpressed: () {
-              print("Tampilkan Semua Proyek");
-            },
-          ),
-        ],
       ),
     );
   }
