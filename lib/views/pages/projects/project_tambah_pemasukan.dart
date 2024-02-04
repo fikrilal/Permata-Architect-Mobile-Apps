@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
+import 'package:permata_architect_mobile_apps/views/components/button/button_loading.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +34,7 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
 
   File? _image;
   ImageHelper _imageHelper = ImageHelper();
+  bool? isSend = false;
 
   void _deleteImage() {
     setState(() {
@@ -57,6 +60,9 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
     BuildContext currentContext = context;
     try {
       //ID USER
+      setState(() {
+        isSend = true;
+      });
       final prefs = await SharedPreferences.getInstance();
       int idUser = int.parse(prefs.getString('userId').toString());
       print("user idnya adalah = $idUser");
@@ -80,6 +86,9 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
         ),
       );
     } catch (error) {
+      setState(() {
+        isSend = false;
+      });
       print("Error: $error");
       CustomSnackbar.showFailedSnackbar(context, 'Gagal menambahkan data');
     }
@@ -118,8 +127,9 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                 textFieldForm(
                     controller: _controllerNominal,
                     header: "Nominal",
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     text: "Rp",
-                    keyboardType: TextInputType.text),
+                    keyboardType: TextInputType.number),
                 uploadImages(
                   header: "Nota Pendanaan",
                   text: "Upload Bukti Nota",
@@ -158,15 +168,18 @@ class _ProjectTambahPemasukanState extends State<ProjectTambahPemasukan> {
                   onDelete: _deleteImage,
                 ),
                 SizedBox(height: 24.h),
-                primaryButton(
-                    text: "Simpan",
-                    onPressed: () {
-                      if (_formKey.currentState!.validate() && _image != null) {
-                        _addPemasukan();
-                      } else {
-                        print("Lengkapi data dan pilih gambar dahulu");
-                      }
-                    }),
+                isSend == false
+                    ? primaryButton(
+                        text: "Simpan",
+                        onPressed: () {
+                          if (_formKey.currentState!.validate() &&
+                              _image != null) {
+                            _addPemasukan();
+                          } else {
+                            print("Lengkapi data dan pilih gambar dahulu");
+                          }
+                        })
+                    : loadingButton(text: "Mengirim Data"),
               ],
             ),
           ),

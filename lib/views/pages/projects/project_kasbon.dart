@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:permata_architect_mobile_apps/repository/api/api_update_kasbon.dart';
@@ -224,6 +225,7 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
                   textFieldForm(
                     controller: _controllerHarga,
                     text: "Rp. ",
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     header: "Nominal",
                     keyboardType: TextInputType.number,
                   ),

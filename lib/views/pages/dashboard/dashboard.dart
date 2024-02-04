@@ -70,7 +70,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 // This should return a Future<String>
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Text("Error: ${snapshot.error}");
                   } else {
@@ -103,7 +103,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   Consumer<ListProgressAllProvider>(
                     builder: (context, state, _) {
                       if (state.state == ResultListProgress.loading) {
-                        return const CircularProgressIndicator();
+                        return const Center(child: CircularProgressIndicator());
                       } else if (state.state == ResultListProgress.hasData) {
                         return Column(
                           children: [

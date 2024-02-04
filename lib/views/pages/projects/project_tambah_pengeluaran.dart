@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permata_architect_mobile_apps/models/proyek_model/list_proyek_model.dart';
 import 'package:permata_architect_mobile_apps/repository/api/api_tambah_pengeluaran.dart';
+import 'package:permata_architect_mobile_apps/views/components/button/button_loading.dart';
 import 'package:permata_architect_mobile_apps/views/components/button/button_primary.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_primary.dart';
 import 'package:permata_architect_mobile_apps/views/pages/projects/project_details.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/image/image_helper.dart';
 import '../../../poviders/proyek_provider.dart';
 import '../../components/appbar/custom_appbar.dart';
@@ -32,6 +35,7 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
 
   final _formKey = GlobalKey<FormState>();
   final ApiTambahPengeluaran _apiTambahPengeluaran = ApiTambahPengeluaran();
+  bool? isSend = false;
 
   File? _image;
   ImageHelper _imageHelper = ImageHelper();
@@ -59,12 +63,18 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
   Future<void> _addPengeluaran() async {
     BuildContext currentContext = context;
     try {
+      setState(() {
+        isSend = true;
+      });
+      final prefs = await SharedPreferences.getInstance();
+      int idUser = int.parse(prefs.getString('userId').toString());
+      print("user idnya adalah = $idUser");
       await _apiTambahPengeluaran.addPengeluaran(
         judulPengeluaran: _controllerNamaBarang.text,
         keterangan: _controllerKeterangan.text,
         sumberDana: _controllerSumberDana.text,
-        id: 1,
-        idProyek: 11,
+        id: idUser,
+        idProyek: int.parse(widget.listProyek.idProyek.toString()),
         satuan: _controllerSatuan.text,
         quantity: int.parse(_controllerQuantity.text),
         hargaSatuan: int.parse(_controllerSatuan.text),
@@ -84,6 +94,9 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
         ),
       );
     } catch (error) {
+      setState(() {
+        isSend = false;
+      });
       print("Error: $error");
       CustomSnackbar.showFailedSnackbar(context, 'Gagal menambahkan data');
     }
@@ -121,11 +134,13 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
                     controller: _controllerQuantity,
                     header: "Quantity",
                     text: "Contoh: 5",
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.number),
                 textFieldForm(
                     controller: _controllerSatuan,
                     header: "Harga Satuan",
                     text: "Rp.",
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.number),
                 textFieldForm(
                     controller: _controllerVendor,
@@ -177,15 +192,17 @@ class _ProjectTambahPengeluaranState extends State<ProjectTambahPengeluaran> {
                 const SizedBox(
                   height: 15,
                 ),
-                primaryButton(
-                    text: "Simpan",
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _addPengeluaran();
-                      } else {
-                        print("Lengkapi dahulu");
-                      }
-                    }),
+                isSend == false
+                    ? primaryButton(
+                        text: "Simpan",
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _addPengeluaran();
+                          } else {
+                            print("Lengkapi dahulu");
+                          }
+                        })
+                    : loadingButton(text: "Mengirim Data"),
                 const SizedBox(
                   height: 15,
                 ),

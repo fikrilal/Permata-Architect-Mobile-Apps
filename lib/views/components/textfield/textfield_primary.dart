@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hicons/flutter_hicons.dart';
 import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ Widget textFieldForm(
     {TextEditingController? controller,
     String? text,
     String? header,
+    List<TextInputFormatter>? inputFormatters,
     TextInputType? keyboardType}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,6 +36,7 @@ Widget textFieldForm(
           return null;
         },
         cursorColor: ListColor.primary,
+        inputFormatters: inputFormatters,
         style: const TextStyle(
           fontFamily: 'Satoshi',
           fontWeight: FontWeight.w500,
