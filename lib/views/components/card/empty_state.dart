@@ -27,3 +27,28 @@ Widget buildEmptyState(String emptyText) {
     ),
   );
 }
+
+Widget noInternetConnection() {
+  return Center(
+    child: Padding(
+      padding: EdgeInsets.all(20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'assets/icons/connection_error.svg',
+            // Change this path based on your actual asset path
+            width: 150.w,
+            height: 150.h,
+          ),
+          Text(
+            'Koneksi internet kamu terputus',
+            style: subHeaderFont.copyWith(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    ),
+  );
+}

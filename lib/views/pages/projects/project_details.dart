@@ -226,7 +226,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               );
             } else {
               if (state.message == '404') {
-                return const Text('Terjadi masalah jaringan');
+                return noInternetConnection();
               } else {
                 return buildEmptyState('Belum ada progress pada proyek ini');
               }
@@ -283,7 +283,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
           );
         } else {
           if (state.message == '404') {
-            return const Text('Terjadi masalah jaringan');
+            return noInternetConnection();
           } else {
             return Text(state.message);
           }

@@ -62,7 +62,7 @@ class _ProjectAbsensiState extends State<ProjectAbsensi> {
               );
             } else {
               if (state.message == '404') {
-                return const Text('Terjadi masalah jaringan');
+                return noInternetConnection();
               } else if (state.message == 'Empthy Data') {
                 return buildEmptyState('Belum ada data pekerja di proyek ini');
               } else {

@@ -177,7 +177,7 @@ class _ProjectListState extends State<ProjectList> {
           );
         } else {
           if (state.message == '404') {
-            return const Text('Terjadi masalah jaringan');
+            return noInternetConnection();
           } else {
             return buildEmptyState('Tidak ada proyek yang tersedia');
           }

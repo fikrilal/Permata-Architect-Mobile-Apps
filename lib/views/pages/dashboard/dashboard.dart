@@ -122,7 +122,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         );
                       } else {
                         if (state.message == '404') {
-                          return const Text('Terjadi masalah jaringan');
+                          return noInternetConnection();
                         } else {
                           return buildEmptyState(
                               'Nampaknya beluk ada progress proyek apapun');
@@ -175,7 +175,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         );
                       } else {
                         if (state.message == '404') {
-                          return const Text('Terjadi masalah jaringan');
+                          return noInternetConnection();
                         } else {
                           return buildEmptyState(
                               'Belum ada pengeluaran apapun');
