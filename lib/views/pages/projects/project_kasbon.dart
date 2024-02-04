@@ -34,7 +34,6 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
   void initState() {
     super.initState();
     _loadKasbons();
-
     _controllerSearchName.addListener(_filterKasbons);
   }
 
@@ -105,20 +104,21 @@ class _ProjectKasbonState extends State<ProjectKasbon> {
                 const SizedBox(height: 15),
                 filteredKasbons.isNotEmpty
                     ? ListView.builder(
-                  itemCount: filteredKasbons.length,
-                  shrinkWrap: true,
-                  controller: _scrollController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final kasbon = filteredKasbons[index];
-                    return listKasbon(
-                      name: kasbon.namaPekerja,
-                      kasbonPrice: kasbon.jumlahKasbon,
-                      idPekerja: kasbon.idPekerja.toString(),
-                    );
-                  },
-                )
-                    : buildEmptyState('Belum ada data kasbon pekerja di proyek ini'),
+                        itemCount: filteredKasbons.length,
+                        shrinkWrap: true,
+                        controller: _scrollController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final kasbon = filteredKasbons[index];
+                          return listKasbon(
+                            name: kasbon.namaPekerja,
+                            kasbonPrice: kasbon.jumlahKasbon,
+                            idPekerja: kasbon.idPekerja.toString(),
+                          );
+                        },
+                      )
+                    : buildEmptyState(
+                        'Belum ada data kasbon pekerja di proyek ini'),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permata_architect_mobile_apps/repository/res/color_libraries.dart';
+import 'package:permata_architect_mobile_apps/views/components/button/button_loading.dart';
 import 'package:permata_architect_mobile_apps/views/components/snackbar/snackbar_custom.dart';
 import 'package:permata_architect_mobile_apps/views/components/textfield/textfield_email_pass.dart';
 import 'package:provider/provider.dart';
@@ -116,9 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           }
                         })
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                    : loadingButton(text: "Tunggu.."),
                 Expanded(child: Container()),
                 GestureDetector(
                   onTap: () {

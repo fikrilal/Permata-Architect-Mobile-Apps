@@ -39,7 +39,7 @@ class _DashboardPageState extends State<DashboardPage> {
     var hour = DateTime.now().hour;
     if (hour < 11) {
       return 'Pagi';
-    } else if (hour < 14) {
+    } else if (hour < 15) {
       return 'Siang';
     } else if (hour < 18) {
       return 'Sore';
@@ -111,8 +111,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             SizedBox(
                               height: 10.h,
                             ),
-                            if (state
-                                .listprogress.isNotEmpty)
+                            if (state.listprogress.isNotEmpty)
                               blueText(
                                 onpressed: () {
                                   print("Tampilkan Semua Proyek");
@@ -125,7 +124,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           return noInternetConnection();
                         } else {
                           return buildEmptyState(
-                              'Nampaknya beluk ada progress proyek apapun');
+                              'Nampaknya belum ada progress proyek apapun');
                         }
                       }
                     },
@@ -164,8 +163,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             SizedBox(
                               height: 10.h,
                             ),
-                            if (state.listCostProyek
-                                .isNotEmpty)
+                            if (state.listCostProyek.isNotEmpty)
                               blueText(
                                 onpressed: () {
                                   print("Tampilkan Semua Proyek");

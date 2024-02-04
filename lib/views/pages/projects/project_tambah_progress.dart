@@ -14,6 +14,7 @@ import '../../../repository/res/font_style.dart';
 import 'dart:io';
 import '../../components/appbar/custom_appbar.dart';
 
+import '../../components/button/button_loading.dart';
 import '../../components/button/button_primary.dart';
 import '../../components/snackbar/snackbar_custom.dart';
 import 'project_details.dart';
@@ -71,6 +72,7 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
   ];
   List<bool>? _isChecked;
   List<String> selectedProgress = [];
+  bool? isSend = false;
 
   @override
   void initState() {
@@ -123,6 +125,9 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
       String? keterangan,
       String? idProyek}) async {
     try {
+      setState(() {
+        isSend = true;
+      });
       await ApiAddProgress.addprogress(
           name: name,
           detailLokasi: detailLokasi,
@@ -145,6 +150,9 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
         ),
       );
     } catch (error) {
+      setState(() {
+        isSend = false;
+      });
       print("Error: $error");
       CustomSnackbar.showFailedSnackbar(context, 'Gagal menambahkan data');
     }
@@ -232,24 +240,27 @@ class _ProjectTambahProgressState extends State<ProjectTambahProgress> {
                       onDelete: _deleteImage,
                     ),
                     SizedBox(height: 24.h),
-                    primaryButton(
-                        text: "Simpan",
-                        onPressed: () {
-                          if (_formKey.currentState!.validate() &&
-                              _image != null) {
-                            print(
-                                "Data diprint\nname = ${_controllerNameSueveyor.text}\nlokasi = ${_controllerDetailLokasi.text}\nprogress = ${_controllerProgress.text}\nketerangan = ${_controllerKeterangan.text}\nid=${widget.listProyek.idProyek.toString()}");
-                            _addProgress(
-                                name: _controllerNameSueveyor.text,
-                                detailLokasi: _controllerDetailLokasi.text,
-                                progress: _controllerProgress.text,
-                                keterangan: _controllerKeterangan.text,
-                                idProyek:
-                                    widget.listProyek.idProyek.toString());
-                          } else {
-                            print("Lengkapi dahulu");
-                          }
-                        }),
+                    isSend == false
+                        ? primaryButton(
+                            text: "Simpan",
+                            onPressed: () {
+                              if (_formKey.currentState!.validate() &&
+                                  _image != null) {
+                                print(
+                                    "Data diprint\nname = ${_controllerNameSueveyor.text}\nlokasi = ${_controllerDetailLokasi.text}\nprogress = ${_controllerProgress.text}\nketerangan = ${_controllerKeterangan.text}\nid=${widget.listProyek.idProyek.toString()}");
+                                _addProgress(
+                                    name: _controllerNameSueveyor.text,
+                                    detailLokasi: _controllerDetailLokasi.text,
+                                    progress: _controllerProgress.text,
+                                    keterangan: _controllerKeterangan.text,
+                                    idProyek:
+                                        widget.listProyek.idProyek.toString());
+                              } else {
+                                CustomSnackbar.showFailedSnackbar(
+                                    context, "Harap Pastikan semua terisi");
+                              }
+                            })
+                        : loadingButton(text: "Mengirim Data")
                   ],
                 )),
           )),

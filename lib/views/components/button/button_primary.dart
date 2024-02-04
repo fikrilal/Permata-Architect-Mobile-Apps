@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget primaryButton({
   required String text,
@@ -12,15 +13,14 @@ Widget primaryButton({
         borderRadius: BorderRadius.circular(10),
       ),
       minimumSize: Size(double.infinity, 0),
-      padding: const EdgeInsets.symmetric(
-          vertical: 16),
+      padding: EdgeInsets.symmetric(vertical: 16.h),
       elevation: 0,
     ),
     child: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
-        fontSize: 18,
+        fontSize: 18.sp,
         fontFamily: 'Satoshi',
         fontWeight: FontWeight.w600,
       ),
